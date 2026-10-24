@@ -6,8 +6,10 @@ import { AuthModule } from './modules/Auth/auth.module.js';
 import { JobsModule } from './modules/Jobs/jobs.module.js';
 import { CompanyModule } from './modules/Company/company.module.js';
 import { ApplicationModule } from './modules/Application/application.module.js';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { resolve } from 'path';
+import { MongooseModule } from '@nestjs/mongoose';
+import { Connection } from 'mongoose';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
@@ -16,6 +18,18 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     ConfigModule.forRoot({
       envFilePath: resolve('./.env'),
       isGlobal: true,
+    }),
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('DB_URI'),
+        onConnectionCreate: (connection: Connection) => {
+          connection.on('connected', () => {
+            console.log('Connected to MongoDB ');
+          });
+        },
+      }),
+      inject: [ConfigService],
     }),
 
     AuthModule,
