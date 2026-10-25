@@ -2,11 +2,10 @@ import { Module } from '@nestjs/common';
 import { createObserveModule } from '@nestjs/observe';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
-import { AuthModule } from './modules/auth/auth.module.js';
-import { JobsModule } from './modules/jobs/jobs.module.js';
-import { CompanyModule } from './modules/company/company.module.js';
-import { ApplicationModule } from './modules/application/application.module.js';
-
+import { AuthModule } from './modules/Auth/auth.module.js';
+import { JobsModule } from './modules/Jobs/jobs.module.js';
+import { CompanyModule } from './modules/Company/company.module.js';
+import { ApplicationModule } from './modules/Application/application.module.js';
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
