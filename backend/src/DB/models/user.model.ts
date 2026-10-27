@@ -5,6 +5,7 @@ import {
   UserStatus,
   ExperienceLevel,
 } from '../../common/enums/index.js';
+import { hash } from '../../common/security/hash.js';
 
 export type UserDocument = HydratedDocument<User>;
 
@@ -40,6 +41,10 @@ export class User {
   emailOtpExpiresAt?: Date;
 }
 export const UserSchema = SchemaFactory.createForClass(User);
+UserSchema.pre('save', async function (this: UserDocument) {
+  if (!this.isModified('password') || !this.password) return;
+  this.password = await hash(this.password);
+});
 export const UserModel = MongooseModule.forFeature([
   { name: User.name, schema: UserSchema },
 ]);
