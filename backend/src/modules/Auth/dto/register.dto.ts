@@ -9,6 +9,7 @@ import {
   IsBoolean,
 } from 'class-validator';
 import { ExperienceLevel } from '../../../common/enums/index.js';
+import { Match } from '../../../common/decorators/match-password.decorator.js';
 
 export class RegisterDto {
   @IsString()
@@ -23,6 +24,7 @@ export class RegisterDto {
   password: string;
 
   @IsString()
+  @Match('password', { message: 'Passwords do not match' })
   confirmPassword: string;
 
   @IsString()
