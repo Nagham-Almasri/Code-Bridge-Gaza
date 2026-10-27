@@ -10,7 +10,7 @@ import { AuthModule } from './modules/Auth/auth.module.js';
 import { JobsModule } from './modules/Jobs/jobs.module.js';
 import { CompanyModule } from './modules/Company/company.module.js';
 import { ApplicationModule } from './modules/Application/application.module.js';
-import { MailModule } from './mail/mail.module.js';
+import { MailModule } from './modules/mail/mail.module.js';
 
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
