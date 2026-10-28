@@ -5,6 +5,7 @@ import { LoginDto } from './dto/login.dto.js';
 import { VerifyEmailDto } from './dto/verify.email.dto.js';
 import { ForgotPasswordDto } from './dto/forgot-password.dto.js';
 import { ResetPasswordDto } from './dto/reset-password.dto.js';
+import { ResendOtpDto } from './dto/resend.otp.dto.js';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly _authService: AuthService) {}
@@ -23,18 +24,24 @@ export class AuthController {
     return this._authService.login(dto);
   }
   @Post('verify-email')
+  @HttpCode(200)
   async verfiyEmail(@Body() verifyEmailDto: VerifyEmailDto) {
     return await this._authService.verifyEmail(verifyEmailDto);
   }
-  @Post('forget-password')
+  @Post('forgot-password')
   @HttpCode(200)
-  forgotPassword(@Body() dto: ForgotPasswordDto){
+  forgotPassword(@Body() dto: ForgotPasswordDto) {
     return this._authService.forgotPassword(dto);
   }
 
   @Post('reset-password')
   @HttpCode(200)
-  resetPassword(@Body() dto: ResetPasswordDto){
+  resetPassword(@Body() dto: ResetPasswordDto) {
     return this._authService.resetPassword(dto);
   }
-}
+
+  @Post('resend-otp')
+  @HttpCode(200)
+  async resendOtp(@Body() resendOtpDto: ResendOtpDto) {
+    return await this._authService.resendOtp(resendOtpDto);
+  }  }

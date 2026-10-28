@@ -22,7 +22,7 @@ export class MailService {
           title: 'Verify your email',
           message:
             'Welcome to CodeBridge Gaza! Use the code below to confirm your email address and activate your account.',
-          expiresInMinutes: '10 min',
+          expiresInMinutes: '5 min',
         },
       });
     } catch (error: any) {

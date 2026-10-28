@@ -19,7 +19,7 @@ import { VerifyEmailDto } from './dto/verify.email.dto.js';
 import { randomInt } from 'node:crypto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto.js';
 import { ResetPasswordDto } from './dto/reset-password.dto.js';
-
+import { ResendOtpDto } from './dto/resend.otp.dto.js';
 @Injectable()
 export class AuthService {
   constructor(
@@ -50,7 +50,15 @@ export class AuthService {
       otp,
       savedUser.fullName,
     );
-    return savedUser;
+    return {
+      message:
+        'Account created. Please check your email for the verification code.',
+      user: {
+        id: savedUser._id,
+        fullName: savedUser.fullName,
+        email: savedUser.email,
+      },
+    };
   }
   async login(dto: LoginDto) {
     const user = await this._userModel.findOne({
@@ -94,9 +102,9 @@ export class AuthService {
       !(await compare(verifyEmailDto.otp, user.confirmEmailOtp))
     )
       throw new BadRequestException('This code provided in incorrect');
-    if (new Date() > user.emailOtpExpiresAt!)
+    if (!user.emailOtpExpiresAt || new Date() > user.emailOtpExpiresAt)
       throw new BadRequestException(
-        'this verfication code has expired,please sign up again',
+        'This verification code has expired. Please request a new one.',
       );
     user.confirmEmailAt = new Date();
     user.confirmEmailOtp = undefined;
@@ -104,44 +112,69 @@ export class AuthService {
     await user.save();
     return { message: 'Your email address has been successfully verfied' };
   }
-  async forgotPassword(dto:ForgotPasswordDto):Promise<{ message: string }> {
+  async forgotPassword(dto: ForgotPasswordDto): Promise<{ message: string }> {
     const genericResponse = {
-        message: "If this email is registered, a reset code has been sent",
+      message: 'If this email is registered, a reset code has been sent',
     };
     const user = await this._userModel.findOne({
-        email: dto.email.toLowerCase(),
+      email: dto.email.toLowerCase(),
     });
     if (!user || !user.confirmEmailAt) return genericResponse;
 
-    const otp = randomInt(100000,1000000).toString();
+    const otp = randomInt(100000, 1000000).toString();
     const expiry = new Date();
-    expiry.setMinutes(expiry.getMinutes() +5);
+    expiry.setMinutes(expiry.getMinutes() + 5);
     user.resetPasswordOtp = await hash(otp);
-    user.resetPasswordOtpExpiresAt= expiry;
+    user.resetPasswordOtpExpiresAt = expiry;
     await user.save();
 
     await this._mailService.sendResetPasswordOtp(
-        user.email,
-        otp,
-        user.fullName,
+      user.email,
+      otp,
+      user.fullName,
     );
     return genericResponse;
   }
-  async resetPassword(dto: ResetPasswordDto): Promise<{message: string}>{
+
+  async resetPassword(dto: ResetPasswordDto): Promise<{ message: string }> {
     const user = await this._userModel.findOne({
-        email: dto.email.toLocaleLowerCase(),
+      email: dto.email.toLowerCase(),
     });
-    if(
-        !user || !user.resetPasswordOtp || !user.resetPasswordOtpExpiresAt || !(await compare(dto.otp, user.resetPasswordOtp))
+    if (
+      !user ||
+      !user.resetPasswordOtp ||
+      !user.resetPasswordOtpExpiresAt ||
+      !(await compare(dto.otp, user.resetPasswordOtp)) ||
+      new Date() > user.resetPasswordOtpExpiresAt
     )
-    throw new BadRequestException("Invalid or expired code");
+      throw new BadRequestException('Invalid or expired code');
+
     user.password = dto.newPassword;
     user.resetPasswordOtp = undefined;
     user.resetPasswordOtpExpiresAt = undefined;
     await user.save();
 
-    return {message: "Your password has been reset successfully"};
+    return { message: 'Your password has been reset successfully' };
   }
 
-
-}
+  async resendOtp(resendOtp: ResendOtpDto) {
+    const user = await this._userModel.findOne({ email: resendOtp.email });
+    if (!user)
+      throw new NotFoundException('No Account record match this email address');
+    if (user.confirmEmailAt)
+      throw new BadRequestException(
+        'this email account has already been confirmed',
+      );
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const hashedOtp = await hash(otp);
+    const newExpiryTime = new Date();
+    newExpiryTime.setMinutes(newExpiryTime.getMinutes() + 5);
+    user.confirmEmailOtp = hashedOtp;
+    user.emailOtpExpiresAt = newExpiryTime;
+    await user.save();
+    await this._mailService.sendVerficationOtp(user.email, otp, user.fullName);
+    return {
+      message:
+        'A fresh verification code has been successfully dispatched to your inbox',
+    };
+  }}

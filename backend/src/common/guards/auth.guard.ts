@@ -3,13 +3,13 @@ import {
   CanActivate,
   ExecutionContext,
   UnauthorizedException,
+  ForbiddenException,
 } from '@nestjs/common';
-import { Observable } from 'rxjs';
 import { TokenService } from '../services/token.service.js';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from '../../DB/models/user.model.js';
 import { Model } from 'mongoose';
-import { UserRole } from '../enums/index.js';
+import { UserRole, UserStatus } from '../enums/index.js';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -20,6 +20,7 @@ export class AuthGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const authHeader = request.headers.authorization;
+
     if (!authHeader)
       throw new UnauthorizedException('Authorization header is missing');
     const [roleSchema, token] = authHeader.split(' ');
@@ -29,7 +30,14 @@ export class AuthGuard implements CanActivate {
         roleSchema.toUpperCase() !== UserRole.ADMIN)
     )
       throw new UnauthorizedException('Invalid Authorization');
-    const payload = await this._tokenService.verifyToken(token, roleSchema);
+
+    let payload: { sub: string };
+    try {
+      payload = await this._tokenService.verifyToken(token, roleSchema);
+    } catch {
+      throw new UnauthorizedException('Invalid or expired token');
+    }
+
     const userDoc = await this._userModel
       .findById(payload.sub)
       .select('-password');
@@ -37,6 +45,8 @@ export class AuthGuard implements CanActivate {
       throw new UnauthorizedException(
         'User account no longer exists in the system',
       );
+    if (userDoc.status === UserStatus.PAUSED)
+      throw new ForbiddenException('Your account is paused');
     request['user'] = userDoc;
 
     return true;
