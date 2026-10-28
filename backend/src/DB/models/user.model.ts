@@ -39,6 +39,11 @@ export class User {
   confirmEmailAt?: Date;
   @Prop()
   emailOtpExpiresAt?: Date;
+  @Prop({type: String , default: undefined })
+  resetPasswordOtp?: string | undefined;
+  @Prop()
+    resetPasswordOtpExpiresAt?: Date;
+
 }
 export const UserSchema = SchemaFactory.createForClass(User);
 UserSchema.pre('save', async function (this: UserDocument) {

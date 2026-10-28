@@ -32,4 +32,29 @@ export class MailService {
       );
     }
   }
+
+  async sendResetPasswordOtp(
+    email: string,
+    otp: string,
+    name: string,
+  ):Promise<void>{
+    try{
+      await this._mailService.sendMail({
+        to: email,
+        subject: "Your Password Reset Code",
+        template: "./otp",
+        context: {
+          name,
+          code: otp,
+          title: "Reset Your Password",
+          message: "We received a request to reset your CodeBridge Gaza password. Use the code below to choose a new password. If you did not request this, you can safely ignore this email.",
+          expiresInMinutes: "5 min",
+        },
+      });
+    }catch(error: any){
+      this.logger.error(`Failed to send reset password email to ${email}`,
+        (error as Error).stack,
+      );
+    }
+  }
 }

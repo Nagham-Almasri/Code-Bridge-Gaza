@@ -16,6 +16,9 @@ import { compare } from '../../common/security/hash.js';
 import { TokenService } from '../../common/services/token.service.js';
 import { LoginDto } from './dto/login.dto.js';
 import { VerifyEmailDto } from './dto/verify.email.dto.js';
+import { randomInt } from 'node:crypto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto.js';
+import { ResetPasswordDto } from './dto/reset-password.dto.js';
 
 @Injectable()
 export class AuthService {
@@ -101,4 +104,44 @@ export class AuthService {
     await user.save();
     return { message: 'Your email address has been successfully verfied' };
   }
+  async forgotPassword(dto:ForgotPasswordDto):Promise<{ message: string }> {
+    const genericResponse = {
+        message: "If this email is registered, a reset code has been sent",
+    };
+    const user = await this._userModel.findOne({
+        email: dto.email.toLowerCase(),
+    });
+    if (!user || !user.confirmEmailAt) return genericResponse;
+
+    const otp = randomInt(100000,1000000).toString();
+    const expiry = new Date();
+    expiry.setMinutes(expiry.getMinutes() +5);
+    user.resetPasswordOtp = await hash(otp);
+    user.resetPasswordOtpExpiresAt= expiry;
+    await user.save();
+
+    await this._mailService.sendResetPasswordOtp(
+        user.email,
+        otp,
+        user.fullName,
+    );
+    return genericResponse;
+  }
+  async resetPassword(dto: ResetPasswordDto): Promise<{message: string}>{
+    const user = await this._userModel.findOne({
+        email: dto.email.toLocaleLowerCase(),
+    });
+    if(
+        !user || !user.resetPasswordOtp || !user.resetPasswordOtpExpiresAt || !(await compare(dto.otp, user.resetPasswordOtp))
+    )
+    throw new BadRequestException("Invalid or expired code");
+    user.password = dto.newPassword;
+    user.resetPasswordOtp = undefined;
+    user.resetPasswordOtpExpiresAt = undefined;
+    await user.save();
+
+    return {message: "Your password has been reset successfully"};
+  }
+
+
 }

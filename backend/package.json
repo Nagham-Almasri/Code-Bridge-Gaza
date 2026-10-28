@@ -37,6 +37,7 @@
     "ejs": "^7.0.2",
     "mongoose": "^9.11.4",
     "nodemailer": "^10.2.1",
+    "preview-email": "^3.4.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },

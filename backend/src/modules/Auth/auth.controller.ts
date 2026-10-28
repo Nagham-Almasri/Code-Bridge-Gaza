@@ -3,7 +3,8 @@ import { RegisterDto } from './dto/register.dto.js';
 import { AuthService } from './auth.service.js';
 import { LoginDto } from './dto/login.dto.js';
 import { VerifyEmailDto } from './dto/verify.email.dto.js';
-
+import { ForgotPasswordDto } from './dto/forgot-password.dto.js';
+import { ResetPasswordDto } from './dto/reset-password.dto.js';
 @Controller('auth')
 export class AuthController {
   constructor(private readonly _authService: AuthService) {}
@@ -24,5 +25,16 @@ export class AuthController {
   @Post('verify-email')
   async verfiyEmail(@Body() verifyEmailDto: VerifyEmailDto) {
     return await this._authService.verifyEmail(verifyEmailDto);
+  }
+  @Post('forget-password')
+  @HttpCode(200)
+  forgotPassword(@Body() dto: ForgotPasswordDto){
+    return this._authService.forgotPassword(dto);
+  }
+
+  @Post('reset-password')
+  @HttpCode(200)
+  resetPassword(@Body() dto: ResetPasswordDto){
+    return this._authService.resetPassword(dto);
   }
 }
