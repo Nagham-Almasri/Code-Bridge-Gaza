@@ -3,6 +3,7 @@ import { RegisterDto } from './dto/register.dto.js';
 import { AuthService } from './auth.service.js';
 import { LoginDto } from './dto/login.dto.js';
 import { VerifyEmailDto } from './dto/verify.email.dto.js';
+import { ResendOtpDto } from './dto/resend.otp.dto.js';
 
 @Controller('auth')
 export class AuthController {
@@ -22,7 +23,13 @@ export class AuthController {
     return this._authService.login(dto);
   }
   @Post('verify-email')
+  @HttpCode(200)
   async verfiyEmail(@Body() verifyEmailDto: VerifyEmailDto) {
     return await this._authService.verifyEmail(verifyEmailDto);
+  }
+  @Post('resend-otp')
+  @HttpCode(200)
+  async resendOtp(@Body() resendOtpDto: ResendOtpDto) {
+    return await this._authService.resendOtp(resendOtpDto);
   }
 }

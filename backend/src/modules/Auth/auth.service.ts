@@ -16,6 +16,7 @@ import { compare } from '../../common/security/hash.js';
 import { TokenService } from '../../common/services/token.service.js';
 import { LoginDto } from './dto/login.dto.js';
 import { VerifyEmailDto } from './dto/verify.email.dto.js';
+import { ResendOtpDto } from './dto/resend.otp.dto.js';
 
 @Injectable()
 export class AuthService {
@@ -47,7 +48,15 @@ export class AuthService {
       otp,
       savedUser.fullName,
     );
-    return savedUser;
+    return {
+      message:
+        'Account created. Please check your email for the verification code.',
+      user: {
+        id: savedUser._id,
+        fullName: savedUser.fullName,
+        email: savedUser.email,
+      },
+    };
   }
   async login(dto: LoginDto) {
     const user = await this._userModel.findOne({
@@ -91,14 +100,35 @@ export class AuthService {
       !(await compare(verifyEmailDto.otp, user.confirmEmailOtp))
     )
       throw new BadRequestException('This code provided in incorrect');
-    if (new Date() > user.emailOtpExpiresAt!)
+    if (!user.emailOtpExpiresAt || new Date() > user.emailOtpExpiresAt)
       throw new BadRequestException(
-        'this verfication code has expired,please sign up again',
+        'This verification code has expired. Please request a new one.',
       );
     user.confirmEmailAt = new Date();
     user.confirmEmailOtp = undefined;
     user.emailOtpExpiresAt = undefined;
     await user.save();
     return { message: 'Your email address has been successfully verfied' };
+  }
+  async resendOtp(resendOtp: ResendOtpDto) {
+    const user = await this._userModel.findOne({ email: resendOtp.email });
+    if (!user)
+      throw new NotFoundException('No Account record match this email address');
+    if (user.confirmEmailAt)
+      throw new BadRequestException(
+        'this email account has already been confirmed',
+      );
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    const hashedOtp = await hash(otp);
+    const newExpiryTime = new Date();
+    newExpiryTime.setMinutes(newExpiryTime.getMinutes() + 5);
+    user.confirmEmailOtp = hashedOtp;
+    user.emailOtpExpiresAt = newExpiryTime;
+    await user.save();
+    await this._mailService.sendVerficationOtp(user.email, otp, user.fullName);
+    return {
+      message:
+        'A fresh verification code has been successfully dispatched to your inbox',
+    };
   }
 }
