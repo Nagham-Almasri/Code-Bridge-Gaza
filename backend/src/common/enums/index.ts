@@ -1,6 +1,6 @@
 export enum UserRole {
-  USER = 'user',
-  ADMIN = 'admin',
+  USER = 'USER',
+  ADMIN = 'ADMIN',
 }
 
 export enum UserStatus {
@@ -10,7 +10,7 @@ export enum UserStatus {
 
 export enum ExperienceLevel {
   STUDENT = 'student',
-  FRESHGRADUATE= 'freshgraduate',
+  FRESHGRADUATE = 'freshgraduate',
   JUNIOR = 'junior',
-  MIDLEVEL ='midlevel',
+  MIDLEVEL = 'midlevel',
 }
