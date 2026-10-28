@@ -33,8 +33,8 @@ export class User {
   skills: string[];
   @Prop()
   refreshTokenHash?: string;
-  @Prop({ default: false })
-  confirmEmailOtp: string;
+  @Prop({ type: String, default: undefined })
+  confirmEmailOtp?: string | undefined;
   @Prop()
   confirmEmailAt?: Date;
   @Prop()
