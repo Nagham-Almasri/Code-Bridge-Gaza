@@ -20,6 +20,7 @@ import { randomInt } from 'node:crypto';
 import { ForgotPasswordDto } from './dto/forgot-password.dto.js';
 import { ResetPasswordDto } from './dto/reset-password.dto.js';
 import { ResendOtpDto } from './dto/resend.otp.dto.js';
+import { createOtp } from '../../common/security/otp.js';
 @Injectable()
 export class AuthService {
   constructor(
@@ -35,14 +36,11 @@ export class AuthService {
       throw new ConflictException(
         'An account with this email address already exists',
       );
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const hashedOtp = await hash(otp);
-    const expiryTime = new Date();
-    expiryTime.setMinutes(expiryTime.getMinutes() + 5);
+    const { otp, hashedOtp, expiresAt } = await createOtp();
     const newUser = new this._userModel({
       ...registerDto,
       confirmEmailOtp: hashedOtp,
-      emailOtpExpiresAt: expiryTime,
+      emailOtpExpiresAt: expiresAt,
     });
     const savedUser = await newUser.save();
     await this._mailService.sendVerficationOtp(
@@ -121,11 +119,10 @@ export class AuthService {
     });
     if (!user || !user.confirmEmailAt) return genericResponse;
 
-    const otp = randomInt(100000, 1000000).toString();
-    const expiry = new Date();
-    expiry.setMinutes(expiry.getMinutes() + 5);
-    user.resetPasswordOtp = await hash(otp);
-    user.resetPasswordOtpExpiresAt = expiry;
+    const { otp, hashedOtp, expiresAt } = await createOtp();
+
+    user.resetPasswordOtp = hashedOtp;
+    user.resetPasswordOtpExpiresAt = expiresAt;
     await user.save();
 
     await this._mailService.sendResetPasswordOtp(
@@ -165,16 +162,15 @@ export class AuthService {
       throw new BadRequestException(
         'this email account has already been confirmed',
       );
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const hashedOtp = await hash(otp);
-    const newExpiryTime = new Date();
-    newExpiryTime.setMinutes(newExpiryTime.getMinutes() + 5);
+    const { otp, hashedOtp, expiresAt } = await createOtp();
+
     user.confirmEmailOtp = hashedOtp;
-    user.emailOtpExpiresAt = newExpiryTime;
+    user.emailOtpExpiresAt = expiresAt;
     await user.save();
     await this._mailService.sendVerficationOtp(user.email, otp, user.fullName);
     return {
       message:
         'A fresh verification code has been successfully dispatched to your inbox',
     };
-  }}
+  }
+}
