@@ -42,7 +42,11 @@ export class User {
   @Prop({type: String , default: undefined })
   resetPasswordOtp?: string | undefined;
   @Prop()
-    resetPasswordOtpExpiresAt?: Date;
+  resetPasswordOtpExpiresAt?: Date;
+  @Prop({trim: true})
+  jobTitle?: string;
+  @Prop({type:[String], default:[]})
+  careerInterests?: string[];
 
 }
 export const UserSchema = SchemaFactory.createForClass(User);

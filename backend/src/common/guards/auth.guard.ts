@@ -23,14 +23,13 @@ export class AuthGuard implements CanActivate {
 
     if (!authHeader)
       throw new UnauthorizedException('Authorization header is missing');
-    const [roleSchema, token] = authHeader.split(' ');
-    if (
-      !token ||
-      (roleSchema.toUpperCase() !== UserRole.USER &&
-        roleSchema.toUpperCase() !== UserRole.ADMIN)
-    )
-      throw new UnauthorizedException('Invalid Authorization');
-
+const [roleSchemaRaw, token] = authHeader.split(' ');
+const roleSchema = roleSchemaRaw?.toUpperCase() as UserRole;
+if (
+  !token ||
+  (roleSchema !== UserRole.USER && roleSchema !== UserRole.ADMIN)
+)
+  throw new UnauthorizedException('Invalid Authorization');
     let payload: { sub: string };
     try {
       payload = await this._tokenService.verifyToken(token, roleSchema);

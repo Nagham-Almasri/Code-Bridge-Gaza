@@ -14,6 +14,6 @@ export class ResetPasswordDto {
     newPassword: string;
 
     @IsString()
-    @Match('newPasswoed' , { message: 'Passwords do not match'})
+    @Match('newPassword' , { message: 'Passwords do not match'})
     confirmPassword: string;
 }
