@@ -1,4 +1,12 @@
-import { Body, Controller, HttpCode, Post , Get , Req , UseGuards  } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  Post,
+  Get,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { RegisterDto } from './dto/register.dto.js';
 import { AuthService } from './auth.service.js';
 import { LoginDto } from './dto/login.dto.js';
@@ -9,7 +17,7 @@ import { ResendOtpDto } from './dto/resend.otp.dto.js';
 import { AuthGuard } from '../../common/guards/auth.guard.js';
 import { RolesGuard } from '../../common/guards/roles.guard.js';
 import { Roles } from '../../common/decorators/roles.decorator.js';
-import { UserRole} from '../../common/enums/index.js';
+import { UserRole } from '../../common/enums/index.js';
 
 @Controller('auth')
 export class AuthController {
@@ -33,7 +41,7 @@ export class AuthController {
   async verfiyEmail(@Body() verifyEmailDto: VerifyEmailDto) {
     return await this._authService.verifyEmail(verifyEmailDto);
   }
-  @Post('forgot-password')
+  @Post('forget-password')
   @HttpCode(200)
   forgotPassword(@Body() dto: ForgotPasswordDto) {
     return this._authService.forgotPassword(dto);
@@ -49,18 +57,17 @@ export class AuthController {
   @HttpCode(200)
   async resendOtp(@Body() resendOtpDto: ResendOtpDto) {
     return await this._authService.resendOtp(resendOtpDto);
-  } 
+  }
   @UseGuards(AuthGuard)
   @Get('me')
-  me(@Req() req: any){
+  me(@Req() req: any) {
     return req.user;
   }
-  
-  @UseGuards (AuthGuard , RolesGuard)
+
+  @UseGuards(AuthGuard, RolesGuard)
   @Roles(UserRole.ADMIN)
   @Get('admin-test')
-  adminTest(@Req() req: any){
-    return { message: "You are admin", user: req.user};
+  adminTest(@Req() req: any) {
+    return { message: 'You are admin', user: req.user };
   }
-
- }
+}
