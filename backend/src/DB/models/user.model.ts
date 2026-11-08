@@ -1,9 +1,9 @@
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import {
-  UserRole,
-  UserStatus,
+  AccountStatus,
   ExperienceLevel,
+  AccountRole,
 } from '../../common/enums/index.js';
 import { hash } from '../../common/security/hash.js';
 
@@ -23,12 +23,12 @@ export class User {
   bio: string;
   @Prop()
   profileImage: string;
-  @Prop({ type: String, enum: UserRole, default: UserRole.USER })
-  role: UserRole;
+  @Prop({ type: String, enum: AccountRole, default: AccountRole.USER })
+  role: AccountRole;
   @Prop({ type: String, enum: ExperienceLevel })
   experienceLevel: ExperienceLevel;
-  @Prop({ type: String, enum: UserStatus, default: UserStatus.ACTIVE })
-  status: UserStatus;
+  @Prop({ type: String, enum: AccountStatus, default: AccountStatus.ACTIVE })
+  status: AccountStatus;
   @Prop({ type: [String], default: [] })
   skills: string[];
   @Prop()
@@ -39,15 +39,14 @@ export class User {
   confirmEmailAt?: Date;
   @Prop()
   emailOtpExpiresAt?: Date;
-  @Prop({type: String , default: undefined })
+  @Prop({ type: String, default: undefined })
   resetPasswordOtp?: string | undefined;
   @Prop()
   resetPasswordOtpExpiresAt?: Date;
-  @Prop({trim: true})
+  @Prop({ trim: true })
   jobTitle?: string;
-  @Prop({type:[String], default:[]})
+  @Prop({ type: [String], default: [] })
   careerInterests?: string[];
-
 }
 export const UserSchema = SchemaFactory.createForClass(User);
 UserSchema.pre('save', async function (this: UserDocument) {
