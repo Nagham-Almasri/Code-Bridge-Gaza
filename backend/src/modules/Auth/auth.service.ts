@@ -48,6 +48,7 @@ export class AuthService {
     }
 
     const { otp, hashedOtp, expiresAt } = await createOtp();
+    console.log('Register OTP:', otp);
 
     const newUser = new this._userModel({
       ...registerDto,
@@ -169,6 +170,8 @@ export class AuthService {
     }
 
     const { otp, hashedOtp, expiresAt } = await createOtp();
+        console.log('Forget Password OTP:', otp);
+
 
     user.resetPasswordOtp = hashedOtp;
     user.resetPasswordOtpExpiresAt = expiresAt;
@@ -232,6 +235,8 @@ export class AuthService {
     }
 
     const { otp, hashedOtp, expiresAt } = await createOtp();
+        console.log('Resend OTP:', otp);
+
 
     user.confirmEmailOtp = hashedOtp;
     user.emailOtpExpiresAt = expiresAt;
@@ -250,3 +255,4 @@ export class AuthService {
     };
   }
 }
+

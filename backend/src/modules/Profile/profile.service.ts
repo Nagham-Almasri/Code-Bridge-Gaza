@@ -56,4 +56,28 @@ export class ProfileService {
 
     return this.getMyProfile(updatedUser);
   }
+
+  //Upload Profile Photo
+async updateProfileImage(
+  userId: string,
+  imagePath: string,
+) {
+  const updatedUser = await this._userModel.findByIdAndUpdate(
+    userId,
+    { profileImage: imagePath },
+    { new: true },
+  );
+
+  if (!updatedUser) {
+    throw new NotFoundException('User not found');
+  }
+
+  return {
+    success: true,
+    message: 'Profile photo updated successfully',
+    results: {
+      profileImage: updatedUser.profileImage,
+    },
+  };
+}
 }
