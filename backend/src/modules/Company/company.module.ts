@@ -6,10 +6,11 @@ import { MailService } from '../mail/mail.service.js';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from '../Auth/auth.module.js';
 import { UserModel } from '../../DB/models/user.model.js';
+import { CloudinaryService } from '../../common/services/cloudinary.service.js';
 
 @Module({
   controllers: [CompanyController],
-  providers: [CompanyService, MailService],
+  providers: [CompanyService, MailService, CloudinaryService],
   imports: [CompanyModel, AuthModule, JwtModule.register({}), UserModel],
 })
 export class CompanyModule {}

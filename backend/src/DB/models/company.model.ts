@@ -63,8 +63,18 @@ export class Company {
   status: AccountStatus;
   @Prop({ type: String, enum: AccountRole, default: AccountRole.COMPANY })
   role: AccountRole;
-  @Prop({ type: { url: String, publicId: String }, _id: false })
-  logo?: { url: string; publicId: string };
+  @Prop({
+    type: {
+      url: { type: String, required: true },
+      publicId: { type: String, required: true },
+    },
+    _id: false,
+    default: null,
+  })
+  logo: {
+    url: string;
+    publicId: string;
+  } | null;
 }
 
 const companySchema = SchemaFactory.createForClass(Company);

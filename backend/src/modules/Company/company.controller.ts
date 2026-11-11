@@ -7,7 +7,9 @@ import {
   Post,
   Query,
   Req,
+  UploadedFile,
   UseGuards,
+  UseInterceptors,
 } from '@nestjs/common';
 import { AddCompanyDto } from './dto/add-company.dto.js';
 import { CompanyService } from './company.service.js';
@@ -17,6 +19,9 @@ import { Roles } from '../../common/decorators/roles.decorator.js';
 import { AccountRole } from '../../common/enums/index.js';
 import { DeleteAccountDto } from './dto/delete-company.dto.js';
 import { SearchCompanyDto } from './dto/search-company.dto.js';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { memoryStorage } from 'multer';
+import { imageValidationPipe } from '../../common/pipes/image-validation.pipe.js';
 
 @Controller('company')
 export class CompanyController {
@@ -41,6 +46,33 @@ export class CompanyController {
   @Get('search-companies')
   searchCompany(@Query() searchCompanyDto: SearchCompanyDto) {
     return this._companyService.searchCompany(searchCompanyDto);
+  }
+  @Patch('upload-logo')
+  @UseGuards(AuthGuard)
+  @Roles(AccountRole.COMPANY)
+  @UseInterceptors(
+    FileInterceptor('image', {
+      storage: memoryStorage(),
+      limits: {
+        fileSize: 2 * 1024 * 1024,
+        files: 1,
+      },
+    }),
+  )
+  uploadLogo(
+    @Req() req: any,
+    @UploadedFile(imageValidationPipe()) file: Express.Multer.File,
+  ) {
+    const companyId = req.account._id;
+    return this._companyService.uploadLogo(companyId, file);
+  }
+
+  @Delete('logo')
+  @UseGuards(AuthGuard)
+  @Roles(AccountRole.COMPANY)
+  removeLogo(@Req() req: any) {
+    const companyId = req.account._id;
+    return this._companyService.removeLogo(companyId);
   }
 
   @Delete('me')

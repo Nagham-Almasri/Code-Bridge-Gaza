@@ -15,12 +15,14 @@ import { compare } from '../../common/security/hash.js';
 import { DeleteAccountDto } from './dto/delete-company.dto.js';
 import { SearchCompanyDto } from './dto/search-company.dto.js';
 import { AccountStatus } from '../../common/enums/index.js';
+import { CloudinaryService } from '../../common/services/cloudinary.service.js';
 @Injectable()
 export class CompanyService {
   constructor(
     @InjectModel(Company.name)
     private readonly _companyModel: Model<HCompanyDocument>,
     private readonly _mailService: MailService,
+    private readonly _cloudinaryService: CloudinaryService,
   ) {}
   async addCompany(addCompanyDto: AddCompanyDto) {
     const existsCompany = await this._companyModel.findOne({
@@ -73,6 +75,62 @@ export class CompanyService {
         description: company.description,
         address: company.address,
       },
+    };
+  }
+  async uploadLogo(companyId: Types.ObjectId, file: Express.Multer.File) {
+    const company = await this._companyModel.findById(companyId);
+
+    if (!company) {
+      throw new NotFoundException('Company not found');
+    }
+
+    const oldLogo = company.logo;
+
+    const newLogo = await this._cloudinaryService.uploadImage(
+      file,
+      'COMPANY',
+      companyId.toString(),
+    );
+    try {
+      company.logo = newLogo;
+      await company.save();
+    } catch (error) {
+      await this._cloudinaryService
+        .deleteImage(newLogo.publicId)
+        .catch(() => undefined);
+
+      throw error;
+    }
+    if (oldLogo?.publicId) {
+      await this._cloudinaryService
+        .deleteImage(oldLogo.publicId)
+        .catch(() => undefined);
+    }
+    return {
+      message: 'Logo updated successfully',
+      logo: newLogo,
+    };
+  }
+  async removeLogo(companyId: Types.ObjectId) {
+    const company = await this._companyModel.findById(companyId);
+
+    if (!company) {
+      throw new NotFoundException('Company not found');
+    }
+
+    if (!company.logo?.publicId) {
+      throw new NotFoundException('Company has no logo');
+    }
+
+    const oldLogo = company.logo;
+
+    company.logo = null;
+    await company.save();
+
+    await this._cloudinaryService.deleteImage(oldLogo.publicId);
+
+    return {
+      message: 'Company logo removed successfully',
     };
   }
   async getCompanyById(companyId: Types.ObjectId) {
