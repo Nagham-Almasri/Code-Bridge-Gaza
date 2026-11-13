@@ -17,7 +17,7 @@ import { ResendOtpDto } from './dto/resend.otp.dto.js';
 import { AuthGuard } from '../../common/guards/auth.guard.js';
 import { RolesGuard } from '../../common/guards/roles.guard.js';
 import { Roles } from '../../common/decorators/roles.decorator.js';
-import { UserRole } from '../../common/enums/index.js';
+import { AccountRole } from '../../common/enums/index.js';
 
 @Controller('auth')
 export class AuthController {
@@ -65,7 +65,7 @@ export class AuthController {
   }
 
   @UseGuards(AuthGuard, RolesGuard)
-  @Roles(UserRole.ADMIN)
+  @Roles(AccountRole.ADMIN)
   @Get('admin-test')
   adminTest(@Req() req: any) {
     return { message: 'You are admin', user: req.user };

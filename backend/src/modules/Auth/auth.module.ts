@@ -5,11 +5,13 @@ import { AuthService } from './auth.service.js';
 import { UserModel } from '../../DB/models/user.model.js';
 import { MailModule } from '../mail/mail.module.js';
 import { TokenService } from '../../common/services/token.service.js';
+import { CompanyModel } from '../../DB/models/company.model.js';
+import { AuthGuard } from '../../common/guards/auth.guard.js';
 
 @Module({
-  imports: [UserModel, MailModule, JwtModule.register({})],
+  imports: [UserModel, MailModule, JwtModule.register({}), CompanyModel],
   controllers: [AuthController],
-  providers: [AuthService, TokenService],
-  exports: [TokenService],
+  providers: [AuthService, TokenService, AuthGuard],
+  exports: [TokenService, AuthService, AuthGuard],
 })
 export class AuthModule {}

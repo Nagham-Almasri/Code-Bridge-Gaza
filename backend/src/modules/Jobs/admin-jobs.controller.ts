@@ -3,12 +3,12 @@ import { JobsService } from './jobs.service.js';
 import { AuthGuard } from '../../common/guards/auth.guard.js';
 import { RolesGuard } from '../../common/guards/roles.guard.js';
 import { Roles } from '../../common/decorators/roles.decorator.js';
-import { UserRole } from '../../common/enums/index.js';
+import { AccountRole } from '../../common/enums/index.js';
 import { AdminQueryJobsDto } from './dto/admin-query-jobs.dto.js';
 import { RejectJobDto } from './dto/reject-job.dto.js';
 
 @UseGuards(AuthGuard, RolesGuard)
-@Roles(UserRole.ADMIN)
+@Roles(AccountRole.ADMIN)
 @Controller('admin/jobs')
 export class AdminJobsController {
 
