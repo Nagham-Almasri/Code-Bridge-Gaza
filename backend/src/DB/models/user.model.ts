@@ -47,6 +47,8 @@ export class User {
   jobTitle?: string;
   @Prop({ type: [String], default: [] })
   careerInterests?: string[];
+  @Prop()
+  profileImagePublicId?: string;
 }
 export const UserSchema = SchemaFactory.createForClass(User);
 UserSchema.pre('save', async function (this: UserDocument) {

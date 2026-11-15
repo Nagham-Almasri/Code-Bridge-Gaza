@@ -1,24 +1,16 @@
-import {
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
-
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-
-import {
-  User,
-  UserDocument,
-} from '../../DB/models/user.model.js';
-
+import { User, UserDocument } from '../../DB/models/user.model.js';
 import { UpdateProfileDto } from './dto/update-profile.dto.js';
+import { CloudinaryService } from '../../common/services/cloudinary.service.js';
 
 @Injectable()
 export class ProfileService {
-
   constructor(
     @InjectModel(User.name)
     private readonly _userModel: Model<UserDocument>,
+    private readonly _cloudinaryService: CloudinaryService,
   ) {}
 
   // Get My Profile
@@ -40,10 +32,7 @@ export class ProfileService {
   }
 
   // Update My Profile
-  async updateMyProfile(
-    userId: string,
-    dto: UpdateProfileDto,
-  ) {
+  async updateMyProfile(userId: string, dto: UpdateProfileDto) {
     const updatedUser = await this._userModel.findByIdAndUpdate(
       userId,
       { $set: dto },
@@ -57,27 +46,29 @@ export class ProfileService {
     return this.getMyProfile(updatedUser);
   }
 
-  //Upload Profile Photo
-async updateProfileImage(
-  userId: string,
-  imagePath: string,
-) {
-  const updatedUser = await this._userModel.findByIdAndUpdate(
-    userId,
-    { profileImage: imagePath },
-    { new: true },
-  );
+  // Upload Profile Photo
+  async updateProfileImage(userId: string, file: Express.Multer.File) {
+    const user = await this._userModel.findById(userId);
+    if (!user) throw new NotFoundException('User not found');
 
-  if (!updatedUser) {
-    throw new NotFoundException('User not found');
+    const uploaded = await this._cloudinaryService.uploadImage(
+      file,
+      'PROFILE',
+      userId,
+    );
+
+    const oldPublicId = user.profileImagePublicId;
+    user.profileImage = uploaded.url;
+    user.profileImagePublicId = uploaded.publicId;
+    await user.save();
+
+    if (oldPublicId)
+      await this._cloudinaryService.deleteImage(oldPublicId).catch(() => null);
+
+    return {
+      success: true,
+      message: 'Profile photo updated successfully',
+      results: { profileImage: user.profileImage },
+    };
   }
-
-  return {
-    success: true,
-    message: 'Profile photo updated successfully',
-    results: {
-      profileImage: updatedUser.profileImage,
-    },
-  };
-}
 }

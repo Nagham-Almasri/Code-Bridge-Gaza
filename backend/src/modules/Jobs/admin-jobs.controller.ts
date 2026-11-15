@@ -1,4 +1,12 @@
-import {Body, Controller, Get, Param, Patch, Query, UseGuards} from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Patch,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { JobsService } from './jobs.service.js';
 import { AuthGuard } from '../../common/guards/auth.guard.js';
 import { RolesGuard } from '../../common/guards/roles.guard.js';
@@ -11,7 +19,6 @@ import { RejectJobDto } from './dto/reject-job.dto.js';
 @Roles(AccountRole.ADMIN)
 @Controller('admin/jobs')
 export class AdminJobsController {
-
     constructor(private readonly _jobsService: JobsService) {}
 
     @Get()
