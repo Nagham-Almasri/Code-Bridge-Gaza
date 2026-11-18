@@ -1,9 +1,10 @@
-export enum UserRole {
+export enum AccountRole {
   USER = 'USER',
   ADMIN = 'ADMIN',
+  COMPANY = 'COMPANY',
 }
 
-export enum UserStatus {
+export enum AccountStatus {
   ACTIVE = 'active',
   PAUSED = 'paused',
 }
