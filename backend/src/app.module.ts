@@ -1,16 +1,17 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import { createObserveModule } from '@nestjs/observe';
+import { resolve } from 'node:path';
+import type { Connection } from 'mongoose';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { AuthModule } from './modules/Auth/auth.module.js';
 import { JobsModule } from './modules/Jobs/jobs.module.js';
 import { CompanyModule } from './modules/Company/company.module.js';
 import { ApplicationModule } from './modules/Application/application.module.js';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { resolve } from 'path';
-import { MongooseModule } from '@nestjs/mongoose';
-import { Connection } from 'mongoose';
-
+import { MailModule } from './modules/mail/mail.module.js';
+import { ProfileModule } from './modules/Profile/profile.module.js';
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -25,17 +26,18 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
         uri: configService.get<string>('DB_URI'),
         onConnectionCreate: (connection: Connection) => {
           connection.on('connected', () => {
-            console.log('Connected to MongoDB ');
+            console.log('Connected to MongoDB');
           });
         },
       }),
       inject: [ConfigService],
     }),
-
     AuthModule,
     JobsModule,
     CompanyModule,
     ApplicationModule,
+    MailModule,
+    ProfileModule,
   ],
   controllers: [AppController],
   providers: [AppService],

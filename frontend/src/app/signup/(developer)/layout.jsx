@@ -1,41 +1,18 @@
 import React from 'react'
 
+<<<<<<< HEAD:frontend/src/app/signup/(developer)/layout.jsx
 import SignUpShell from '../../_Components/SignUpShell/SignUpShell';
+=======
+import SignUpShell from '../_Components/SignUpShell/SignUpShell';
+import { SignupProvider } from './_context/SignupContext';
+>>>>>>> 8b00b306361db77fc8104e4626a7bccb09be7c6d:frontend/src/app/signup/layout.jsx
 
 
 export default function layout({children}) {
   return (
  <>
-   <SignUpShell>{children}</SignUpShell></>
+ <SignupProvider>
+   <SignUpShell>{children}</SignUpShell>
+   </SignupProvider></>
   )
 }
-
-// function StepItem({ number, label, active = false }) {
-//   return (
-// <>
-//     <div className="flex flex-col items-center">
-//       <div
-//         className={`flex h-9 w-9 items-center justify-center rounded-full text-sm font-extrabold shadow-sm ${
-//           active
-//             ? "bg-gradient-to-br from-blue-500 to-violet-600 text-white"
-//             : "bg-slate-100 text-slate-400"
-//         }`}
-//       >
-//         {number}
-//       </div>
-
-//       <span
-//         className={`mt-2 text-xs font-semibold ${
-//           active ? "text-violet-600" : "text-slate-400"
-//         }`}
-//       >
-//         {label}
-//       </span>
-//     </div>
-// </>
-//   );
-// }
-
-// function StepLine() {
-//   return <div className="mt-4 h-px flex-1 bg-slate-200" />;
-// }

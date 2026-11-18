@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light only" />
+  <title><%= title %></title>
+</head>
+<body style="margin:0; padding:0; background-color:#eef2ff; -webkit-text-size-adjust:100%;">
+
+  <!-- Preheader (text shown in the inbox preview) -->
+  <div style="display:none; max-height:0; overflow:hidden; opacity:0; color:#eef2ff;">
+    Your CodeBridge Gaza code is <%= code %>. It expires in <%= expiresInMinutes %> minutes.
+  </div>
+
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#eef2ff" style="background-color:#eef2ff;">
+    <tr>
+      <td align="center" style="padding:32px 16px;">
+
+        <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="width:100%; max-width:600px;">
+
+          <!-- Header (gradient; solid bgcolor is the fallback for Outlook) -->
+          <tr>
+            <td align="center" bgcolor="#4f46e5" style="background-color:#4f46e5; background-image:linear-gradient(135deg, #1e3a8a 0%, #4f46e5 55%, #7c3aed 100%); border-radius:20px 20px 0 0; padding:36px 24px 32px;">
+
+              <!-- Logo -->
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td width="48" height="48" align="center" valign="middle" bgcolor="#6366f1" style="width:48px; height:48px; background-color:#6366f1; background-image:linear-gradient(135deg, #3b82f6 0%, #7c3aed 100%); border-radius:14px;">
+                    <table role="presentation" cellpadding="0" cellspacing="0" border="0" align="center">
+                      <tr>
+                        <td width="20" height="20" style="width:20px; height:20px; border:3px solid #ffffff; border-radius:50%; font-size:0; line-height:0;">&nbsp;</td>
+                      </tr>
+                    </table>
+                  </td>
+                  <td style="padding-left:12px; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:24px; font-weight:700; color:#ffffff;">
+                    CodeBridge <span style="color:#c7d2fe;">Gaza</span>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin:18px 0 0; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif; font-size:14px; color:#c7d2fe;">
+                Build Your Future. Tech Career Today.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Body card -->
+          <tr>
+            <td bgcolor="#ffffff" style="background-color:#ffffff; padding:40px 40px 32px; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+
+              <h1 style="margin:0 0 12px; font-size:26px; line-height:34px; font-weight:800; color:#1e1b4b;">
+                <%= title %>
+              </h1>
+
+              <p style="margin:0 0 8px; font-size:16px; line-height:26px; color:#374151;">
+                Hello <strong style="color:#4f46e5;"><%= name %></strong>,
+              </p>
+              <p style="margin:0 0 28px; font-size:16px; line-height:26px; color:#4b5563;">
+                <%= message %>
+              </p>
+
+              <!-- OTP box -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="center" bgcolor="#eef2ff" style="background-color:#eef2ff; border:1px solid #c7d2fe; border-radius:16px; padding:26px 16px;">
+                    <p style="margin:0 0 10px; font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:#6366f1;">
+                      Your verification code
+                    </p>
+                    <p style="margin:0; font-family:'SFMono-Regular', Consolas, 'Courier New', monospace; font-size:40px; line-height:48px; font-weight:800; letter-spacing:12px; color:#4f46e5;">
+                      <%= code %>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Expiry note -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:22px;">
+                <tr>
+                  <td style="border-left:3px solid #7c3aed; padding:4px 0 4px 14px; font-size:14px; line-height:22px; color:#4b5563;">
+                    This code expires in <strong style="color:#1e1b4b;"><%= expiresInMinutes %> minutes</strong>.
+                    Please don't share it with anyone.
+                  </td>
+                </tr>
+              </table>
+
+              <hr style="border:none; border-top:1px solid #e5e7eb; margin:32px 0 20px;" />
+
+              <p style="margin:0; font-size:13px; line-height:21px; color:#6b7280;">
+                If you didn't request this, you can safely ignore this email. Your account stays secure.
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td align="center" bgcolor="#ffffff" style="background-color:#ffffff; border-top:1px solid #e5e7eb; border-radius:0 0 20px 20px; padding:20px 24px 28px; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+              <p style="margin:0 0 4px; font-size:12px; line-height:18px; color:#9ca3af;">
+                &copy; CodeBridge Gaza. All rights reserved.
+              </p>
+              <p style="margin:0; font-size:12px; line-height:18px; color:#9ca3af;">
+                This is an automated message, please do not reply.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>
