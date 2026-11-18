@@ -56,6 +56,7 @@ export class AuthService {
     }
 
     const { otp, hashedOtp, expiresAt } = await createOtp();
+    console.log('Register OTP:', otp);
 
     const newUser = new this._userModel({
       ...registerDto,
@@ -78,6 +79,7 @@ export class AuthService {
         id: savedUser._id,
         fullName: savedUser.fullName,
         email: savedUser.email,
+        role: savedUser.role,
       },
     };
   }
@@ -108,7 +110,7 @@ export class AuthService {
   // Verify Email
   async verifyEmail(
     verifyEmailDto: VerifyEmailDto,
-  ): Promise<{ message: string }> {
+  ): Promise<{ message: string; role: string }> {
     const account = await this.findAccountByEmail(
       verifyEmailDto.email.toLowerCase(),
     );
@@ -146,11 +148,12 @@ export class AuthService {
 
     return {
       message: 'Your email address has been successfully verified',
+      role: account.role,
     };
   }
 
   // Forgot Password
-  async forgotPassword(dto: ForgotPasswordDto): Promise<{ message: string }> {
+  async forgotPassword(dto: ForgotPasswordDto) {
     const genericResponse = {
       message: 'If this email is registered, a reset code has been sent',
     };
@@ -162,6 +165,7 @@ export class AuthService {
     }
 
     const { otp, hashedOtp, expiresAt } = await createOtp();
+    console.log('Forget Password OTP:', otp);
 
     account.resetPasswordOtp = hashedOtp;
     account.resetPasswordOtpExpiresAt = expiresAt;
@@ -175,11 +179,16 @@ export class AuthService {
       accountName,
     );
 
-    return genericResponse;
+    return {
+      ...genericResponse,
+      role: account.role,
+    };
   }
 
   // Reset Password
-  async resetPassword(dto: ResetPasswordDto): Promise<{ message: string }> {
+  async resetPassword(
+    dto: ResetPasswordDto,
+  ): Promise<{ message: string; role: string }> {
     const account = await this.findAccountByEmail(dto.email.toLowerCase());
 
     if (
@@ -200,6 +209,7 @@ export class AuthService {
 
     return {
       message: 'Your password has been reset successfully',
+      role: account.role,
     };
   }
 
@@ -220,6 +230,7 @@ export class AuthService {
     }
 
     const { otp, hashedOtp, expiresAt } = await createOtp();
+    console.log('Resend OTP:', otp);
 
     account.confirmEmailOtp = hashedOtp;
     account.emailOtpExpiresAt = expiresAt;
@@ -232,6 +243,7 @@ export class AuthService {
     return {
       message:
         'A fresh verification code has been successfully dispatched to your inbox',
+      role: account.role,
     };
   }
 }
