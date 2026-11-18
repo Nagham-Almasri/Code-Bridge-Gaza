@@ -19,26 +19,25 @@ import { RejectJobDto } from './dto/reject-job.dto.js';
 @Roles(AccountRole.ADMIN)
 @Controller('admin/jobs')
 export class AdminJobsController {
-    constructor(private readonly _jobsService: JobsService) {}
+  constructor(private readonly _jobsService: JobsService) {}
 
-    @Get()
-    findAll(@Query() query: AdminQueryJobsDto){
-        return this._jobsService.adminFindAll(query);
-    }
+  @Get()
+  findAll(@Query() query: AdminQueryJobsDto) {
+    return this._jobsService.adminFindAll(query);
+  }
 
-    @Get(':id')
-    findOne(@Param('id') id: string){
-        return this._jobsService.adminFindOne(id);
-    }
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this._jobsService.adminFindOne(id);
+  }
 
-    @Patch(':id/approve')
-    approve(@Param('id') id: string){
-        return this._jobsService.approveJob(id);
-    }
+  @Patch(':id/approve')
+  approve(@Param('id') id: string) {
+    return this._jobsService.approveJob(id);
+  }
 
-    @Patch(':id/reject')
-    reject(@Param('id') id: string, @Body() dto: RejectJobDto){
-        return this._jobsService.reject(id, dto);
-    }   
-
+  @Patch(':id/reject')
+  reject(@Param('id') id: string, @Body() dto: RejectJobDto) {
+    return this._jobsService.reject(id, dto);
+  }
 }

@@ -13,6 +13,7 @@ import {
 } from '../../DB/models/application.model.js';
 import { JobApprovalStatus, JobStatus } from '../../common/enums/index.js';
 import { CV } from '../../DB/models/cv.model.js';
+import { UpdateApplicationStatusDto } from './dto/updateApplication.dto.js';
 
 @Injectable()
 export class ApplicationService {
@@ -82,6 +83,63 @@ export class ApplicationService {
 
     return {
       message: 'Applications retrieved successfully',
+      applications,
+    };
+  }
+  async updateApplicationStatus(
+    companyId: Types.ObjectId,
+    applicationId: Types.ObjectId,
+    dto: UpdateApplicationStatusDto,
+  ) {
+    const application = await this._applicationModel.findOneAndUpdate(
+      {
+        _id: applicationId,
+        company: companyId,
+      },
+      {
+        $set: { status: dto.status },
+      },
+      {
+        new: true,
+        runValidators: true,
+      },
+    );
+
+    if (!application) {
+      throw new NotFoundException(
+        'Application not found or you are not authorized to update it',
+      );
+    }
+    return {
+      message: 'Application status updated successfully',
+      application,
+    };
+  }
+  async getJobApplications(companyId: Types.ObjectId, jobId: Types.ObjectId) {
+    const job = await this._jobModel.findOne({
+      _id: jobId,
+      company: companyId,
+    });
+
+    if (!job) {
+      throw new NotFoundException(
+        'Job not found or you are not authorized to access it',
+      );
+    }
+
+    const applications = await this._applicationModel
+      .find({
+        job: job._id,
+        company: companyId,
+      })
+      .populate(
+        'applicant',
+        'fullName email profileImage major experienceLevel',
+      )
+      .sort({ createdAt: -1 });
+
+    return {
+      message: 'Job applications retrieved successfully',
       applications,
     };
   }

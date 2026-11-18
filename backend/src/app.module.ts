@@ -11,6 +11,7 @@ import { CompanyModule } from './modules/Company/company.module.js';
 import { ApplicationModule } from './modules/Application/application.module.js';
 import { MailModule } from './modules/mail/mail.module.js';
 import { ProfileModule } from './modules/Profile/profile.module.js';
+import { JobsModule } from './modules/Jobs/jobs.module.js';
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -34,6 +35,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     AuthModule,
     CompanyModule,
     ApplicationModule,
+    JobsModule,
     MailModule,
     ProfileModule,
   ],
