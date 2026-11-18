@@ -31,6 +31,11 @@ export class User {
   status: AccountStatus;
   @Prop({ type: [String], default: [] })
   skills: string[];
+  @Prop({ trim: true })
+  phone?: string;
+
+  @Prop({ trim: true })
+  location?: string;
   @Prop()
   refreshTokenHash?: string;
   @Prop({ type: String, default: undefined })
