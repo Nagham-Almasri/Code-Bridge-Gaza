@@ -1,8 +1,17 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { FiChevronLeft } from "react-icons/fi";
+import { useForm } from "react-hook-form";
+import { useSignup } from "../../_context/SignupContext";
+import { handleSignup } from "../../action/signup.action";
+import { toast } from "react-toastify";
+
+
+
+export default function SkillsInputs() {
+const router = useRouter()
+const { signupData, updateSkills } = useSignup();
 
 const skillsList = [
   "HTML",
@@ -19,111 +28,142 @@ const skillsList = [
   "Git",
 ];
 
-export default function SkillsInputs() {
-  const router = useRouter();
 
-  const [selectedSkills, setSelectedSkills] = useState([]);
-  const [agree, setAgree] = useState(false);
+const {
+  register,
+  handleSubmit,
+  formState: { errors },
+} = useForm({
+  defaultValues: {
+    skills: [],
+    acceptTerms: false,
+  },
+});
 
-  const toggleSkill = (skill) => {
-    setSelectedSkills((prevSkills) => {
-      if (prevSkills.includes(skill)) {
-        return prevSkills.filter((item) => item !== skill);
-      }
+async function handleSkillsData(data){
 
-      return [...prevSkills, skill];
-    });
+updateSkills(data);
+
+  const formData = {
+    ...signupData,
+    skills: {
+      ...signupData.skills,
+      ...data,
+    },
   };
 
-  const handleBack = () => {
-    router.push("/signup/career");
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    const formData = {
-      skills: selectedSkills,
-      agreeTerms: agree,
+     const sentData = {
+      fullName: formData.personal.fullName,
+      email: formData.personal.email,
+      password: formData.personal.password,
+      confirmPassword: formData.personal.confirmPassword,
+      major: formData.career.major,
+      experienceLevel: formData.career.experienceLevel,
+      skills: formData.skills.skills ,
+      acceptTerms: formData.skills.acceptTerms,
     };
 
-    console.log("Skills Form Data:", formData);
+  
+  const result = await handleSignup(sentData);
+  if (!!result) {
+  setTimeout(()=>{
+     toast.success('Account created successfully' , {position:'top-right'})
+     router.push('/login')
+  },500)
+  }
+  else{
+      setTimeout(()=>{
+     toast.error('This user already have an account', {position:'top-right'})
+  },500)
+   
+  }
 
-    // لاحقًا هون بنربط API create account
-  };
+};
+
+
+
 
   return (
-  <>
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div>
-        <div className="mb-4 flex items-center gap-1 text-sm">
-          <label className="font-bold text-slate-900">Your Skills</label>
-          <span className="font-bold text-violet-600">*</span>
-          <span className="text-slate-400">(select all that apply)</span>
-        </div>
+ 
+<form onSubmit={handleSubmit(handleSkillsData)}>
 
-        <div className="flex flex-wrap gap-3">
-          {skillsList.map((skill) => {
-            const isSelected = selectedSkills.includes(skill);
+{/* skills */}
+  <div className="space-y-3">
+    <label className="font-bold text-slate-900">
+      Your Skills *
+    </label>
 
-            return (
-              <button
-                key={skill}
-                type="button"
-                onClick={() => toggleSkill(skill)}
-                className={`rounded-xl border px-4 py-2 text-sm font-bold transition-all duration-200 ${
-                  isSelected
-                    ? "border-violet-500 bg-violet-50 text-violet-600 shadow-sm shadow-violet-100"
-                    : "border-slate-200 bg-white text-slate-500 hover:border-violet-300 hover:text-violet-600"
-                }`}
-              >
-                {skill}
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      <label className="flex cursor-pointer items-start gap-3 text-sm font-medium text-slate-500">
-        <input
-          type="checkbox"
-          checked={agree}
-          onChange={(e) => setAgree(e.target.checked)}
-          className="mt-0.5 h-5 w-5 rounded border-slate-300 accent-violet-600"
-        />
-
-        <span>
-          I agree to the{" "}
-          <a href="#" className="font-bold text-violet-600">
-            Terms & Conditions
-          </a>{" "}
-          and{" "}
-          <a href="#" className="font-bold text-violet-600">
-            Privacy Policy
-          </a>
-          .
-        </span>
-      </label>
-
-      <div className="flex gap-3 pt-1">
-        <button
-          type="button"
-          onClick={handleBack}
-          className="flex h-14 w-[105px] items-center justify-center gap-2 rounded-2xl border border-slate-200 bg-white text-sm font-bold text-slate-500 transition hover:border-violet-300 hover:text-violet-600"
+    <div className="grid grid-cols-2 gap-3">
+      {skillsList.map((skill) => (
+        <label
+          key={skill}
+          className="flex items-center gap-3 rounded-xl border border-slate-200 p-3 cursor-pointer hover:border-violet-400"
         >
-          <FiChevronLeft className="text-lg" />
-          Back
-        </button>
+          <input
+            type="checkbox"
+            value={skill}
+            {...register("skills", {
+              required: "Select at least one skill",
+            })}
+            className="h-4 w-4 accent-violet-600"
+          />
 
-        <button
-          onClick={()=> router.push('/')}
+          <span className="text-sm font-medium text-slate-600">
+            {skill}
+          </span>
+        </label>
+      ))}
+    </div>
+
+    {errors.skills && (
+      <p className="text-sm text-red-500">
+        {errors.skills.message}
+      </p>
+    )}
+  </div>
+ 
+
+ {/* terms checkbox */}
+<div>
+  <label className="flex cursor-pointer items-start gap-3 text-sm font-medium text-slate-500 mt-5">
+
+    <input
+      type="checkbox"
+      {...register("acceptTerms", {
+        required: "You must agree to the terms and conditions",
+      })}
+      className="mt-0.5 h-5 w-5 rounded border-slate-300 accent-violet-600"
+    />
+
+    <span>
+      I agree to the{" "}
+      <a href="#" className="font-bold text-violet-600">
+        Terms & Conditions
+      </a>
+      {" "}and{" "}
+      <a href="#" className="font-bold text-violet-600">
+        Privacy Policy
+      </a>.
+    </span>
+
+  </label>
+
+  {errors.acceptTerms && (
+    <p className="text-sm text-red-500 mt-2">
+      {errors.acceptTerms.message}
+    </p>
+  )}
+</div>
+
+
+    <button
           type="submit"
-          className="h-14 flex-1 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-600 text-base font-extrabold text-white shadow-lg shadow-violet-300/70 transition hover:scale-[1.01]"
+          className="my-5 h-14 w-full rounded-2xl bg-gradient-to-r from-blue-500 to-violet-600 text-base font-extrabold text-white shadow-lg shadow-violet-300/70 transition hover:scale-[1.01]"
         >
           Create Account
         </button>
-      </div>
-    </form>
-  </>
+
+</form>
+
   );
 }
