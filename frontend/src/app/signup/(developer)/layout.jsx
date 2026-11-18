@@ -1,6 +1,6 @@
 import React from 'react'
 
-import SignUpShell from '../_Components/SignUpShell/SignUpShell';
+import SignUpShell from '../../_Components/SignUpShell/SignUpShell';
 
 
 export default function layout({children}) {
