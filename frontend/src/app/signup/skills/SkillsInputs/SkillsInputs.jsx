@@ -66,21 +66,23 @@ updateSkills(data);
       acceptTerms: formData.skills.acceptTerms,
     };
   if(Object.values(sentData).includes(undefined)){
-    router.push('/signup/personal');
+    router.push('/signup/personal'); 
+    return;
   }
 
   
   const result = await handleSignup(sentData);
   if (!!result) {
   setTimeout(()=>{
-     toast.success('Account created successfully' , {position:'top-right'})
+     toast.success('Account created successfully' , 
+      {position:'top-right' , style : {padding:'0.5rem'}})
      router.push('/login')
   },500)
   setIsLoading(false)
   }
   else{
       setTimeout(()=>{
-     toast.error('This user already have an account', {position:'top-right'})
+     toast.error('This user already have an account', {position:'top-right' , style : {padding:'0.5rem'}})
   },500)
    setIsLoading(false)
    
