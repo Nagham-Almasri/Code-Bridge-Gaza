@@ -6,12 +6,14 @@ import { useForm } from "react-hook-form";
 import { useSignup } from "../../_context/SignupContext";
 import { handleSignup } from "../../action/signup.action";
 import { toast } from "react-toastify";
+import { useState } from "react";
 
 
 
 export default function SkillsInputs() {
 const router = useRouter()
 const { signupData, updateSkills } = useSignup();
+const [isLoading, setIsLoading] = useState(false);
 
 const skillsList = [
   "HTML",
@@ -41,6 +43,7 @@ const {
 });
 
 async function handleSkillsData(data){
+  setIsLoading(true)
 
 updateSkills(data);
 
@@ -62,6 +65,9 @@ updateSkills(data);
       skills: formData.skills.skills ,
       acceptTerms: formData.skills.acceptTerms,
     };
+  if(Object.values(sentData).includes(undefined)){
+    router.push('/signup/personal');
+  }
 
   
   const result = await handleSignup(sentData);
@@ -70,11 +76,13 @@ updateSkills(data);
      toast.success('Account created successfully' , {position:'top-right'})
      router.push('/login')
   },500)
+  setIsLoading(false)
   }
   else{
       setTimeout(()=>{
      toast.error('This user already have an account', {position:'top-right'})
   },500)
+   setIsLoading(false)
    
   }
 
@@ -156,12 +164,21 @@ updateSkills(data);
 </div>
 
 
+{isLoading ? <>
+    <button
+          type="submit"
+          disabled
+          className="my-5 h-14 w-full rounded-2xl bg-gradient-to-r from-blue-500 to-violet-600 text-base font-extrabold text-white shadow-lg shadow-violet-300/70 transition cursor-not-allowed opacity-50"
+        >
+          Create Account
+        </button></> :<>
     <button
           type="submit"
           className="my-5 h-14 w-full rounded-2xl bg-gradient-to-r from-blue-500 to-violet-600 text-base font-extrabold text-white shadow-lg shadow-violet-300/70 transition hover:scale-[1.01]"
         >
           Create Account
-        </button>
+        </button></>}
+
 
 </form>
 
