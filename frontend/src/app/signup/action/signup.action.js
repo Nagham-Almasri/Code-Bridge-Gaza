@@ -5,7 +5,7 @@
 export async function handleSignup(formData) {
   try {
 
-  const data = await fetch(`http://127.0.0.1:3000/auth/register`, {
+  const data = await fetch(`https://code-bridge-gaza.onrender.com/auth/register`, {
     method:'POST', 
     body: JSON.stringify(formData), 
     headers: {
