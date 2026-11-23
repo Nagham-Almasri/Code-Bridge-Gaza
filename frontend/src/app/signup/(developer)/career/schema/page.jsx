@@ -1,5 +1,5 @@
 import React from 'react'
-import CareerInputs from './CareerInputs/CareerInputs'
+import CareerInputs from '../CareerInputs/CareerInputs'
 
 export default function page() {
   return (

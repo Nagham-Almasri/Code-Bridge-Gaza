@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FiCode, FiBriefcase, FiArrowRight } from "react-icons/fi";
+import { FiCode, FiBriefcase, FiArrowRight, FiArrowLeft } from "react-icons/fi";
 
 export default function SignupPage() {
   return (
@@ -10,6 +10,7 @@ export default function SignupPage() {
 
         {/* Header */}
         <div className="text-center">
+
 
           {/* Logo */}
           <div className="mx-auto flex h-18 w-18 items-center justify-center rounded-2xl bg-gradient-to-br from-blue-500 to-violet-600 text-white shadow-lg shadow-violet-200">
