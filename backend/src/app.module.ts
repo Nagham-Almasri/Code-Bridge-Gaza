@@ -12,6 +12,7 @@ import { ApplicationModule } from './modules/Application/application.module.js';
 import { MailModule } from './modules/mail/mail.module.js';
 import { ProfileModule } from './modules/Profile/profile.module.js';
 import { JobsModule } from './modules/Jobs/jobs.module.js';
+import { CoursesModule } from './modules/courses/courses.module.js';
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -38,6 +39,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     JobsModule,
     MailModule,
     ProfileModule,
+    CoursesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

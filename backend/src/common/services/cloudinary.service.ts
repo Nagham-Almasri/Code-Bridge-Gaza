@@ -4,7 +4,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import { randomUUID } from 'crypto';
 import type { UploadApiResponse } from 'cloudinary';
 
-export type ImageFolder = 'COMPANY' | 'PROFILE';
+export type ImageFolder = 'COMPANY' | 'PROFILE'| 'COURSE';
 
 export interface UploadedImage {
   url: string;

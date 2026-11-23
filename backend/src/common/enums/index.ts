@@ -48,3 +48,14 @@ export enum ApplicationStatus {
   ACCEPTED = 'accepted',
   REJECTED = 'rejected',
 }
+export enum EnrollmentStatus {
+  ENROLLED = 'enrolled',
+  IN_PROGRESS = 'in-progress',
+  COMPLETED = 'completed',
+  DROPPED = 'dropped',
+}
+
+export enum CourseStatus {
+  ACTIVE = 'active',
+  ARCHIVED = 'archived',
+}
