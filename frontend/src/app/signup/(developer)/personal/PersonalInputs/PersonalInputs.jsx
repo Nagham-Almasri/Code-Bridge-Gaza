@@ -3,10 +3,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { FiChevronRight, FiEye, FiLock, FiMail, FiUser } from "react-icons/fi";
+import { FiArrowLeft, FiChevronRight, FiEye, FiLock, FiMail, FiUser } from "react-icons/fi";
 import { personalSchema } from "../schema/personal.schema";
 import ErrorMessage from "@/app/_Components/ErrorMessage/ErrorMessage";
-import { useSignup } from "../../_context/SignupContext";
+import { useSignup } from "@/app/signup/_context/SignupContext";
 
 export default function PersonalInputs() {
   const router = useRouter();
@@ -31,7 +31,10 @@ export default function PersonalInputs() {
      router.push('/signup/career')
   }
   return (
+   
+
     <form onSubmit={handleSubmit(handlePersonal)} className="space-y-5">
+         
       <div>
         <label className="mb-3 block text-sm font-bold text-slate-900">
           Full Name
@@ -128,7 +131,6 @@ export default function PersonalInputs() {
                 className="h-full flex-1 bg-transparent text-sm font-medium outline-none placeholder:text-slate-400"
               />
 
-              <FiEye className="text-xl text-slate-400" />
             </div>
             {errors?.password?.message && (
               <ErrorMessage msg={errors?.password?.message} />
@@ -147,7 +149,6 @@ export default function PersonalInputs() {
                 className="h-full flex-1 bg-transparent text-sm font-medium outline-none placeholder:text-slate-400"
               />
 
-              <FiEye className="text-xl text-slate-400" />
             </div>
           </>
         )}
@@ -170,7 +171,6 @@ export default function PersonalInputs() {
                 className="h-full flex-1 bg-transparent text-sm font-medium outline-none placeholder:text-slate-400"
               />
 
-              <FiEye className="text-xl text-slate-400" />
             </div>
             {errors?.confirmPassword?.message && (
               <ErrorMessage msg={errors?.confirmPassword?.message} />
@@ -189,7 +189,6 @@ export default function PersonalInputs() {
                 className="h-full flex-1 bg-transparent text-sm font-medium outline-none placeholder:text-slate-400"
               />
 
-              <FiEye className="text-xl text-slate-400" />
             </div>
           </>
         )}

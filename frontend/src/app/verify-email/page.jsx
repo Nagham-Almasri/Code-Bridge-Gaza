@@ -1,10 +1,11 @@
 import React from 'react'
-import CareerInputs from './CareerInputs/CareerInputs'
+import VerifyEmailInput from './VerifyEmailInput/VerifyEmailInput'
 
 export default function page() {
   return (
     <div>
-      <CareerInputs/>
+
+        <VerifyEmailInput/>
     </div>
   )
 }

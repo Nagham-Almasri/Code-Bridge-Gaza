@@ -62,11 +62,11 @@ export default function HomeNavbar() {
           </NextLink>
 
           <NextLink
-            href="/signup/personal"
-            className="p-2 bg-gradient-to-r from-blue-500 to-violet-600 px-6   text-white rounded-full hover:shadow-md hover:shadow-violet-300/70"
-          >
-            Sign Up
-          </NextLink>
+  href="/signup"
+  className="p-2 bg-gradient-to-r from-blue-500 to-violet-600 px-6 text-white rounded-full hover:shadow-md hover:shadow-violet-300/70"
+>
+  Sign Up
+</NextLink>
         </div>
 
         <div className="flex items-center gap-3 lg:hidden">

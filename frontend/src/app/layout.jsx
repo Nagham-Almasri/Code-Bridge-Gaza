@@ -2,6 +2,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { SignupProvider } from "./signup/_context/SignupContext";
+import TanStackProvider from "@/providers/TanStackProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -21,7 +23,14 @@ export default function RootLayout({ children }) {
       lang="en"
       className={`${inter.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}<ToastContainer /></body>
+      <body className="min-h-full flex flex-col">
+        <TanStackProvider>
+         <SignupProvider> 
+        {children}
+        <ToastContainer />
+        </SignupProvider>
+      </TanStackProvider>
+      </body>
     </html>
   );
 }

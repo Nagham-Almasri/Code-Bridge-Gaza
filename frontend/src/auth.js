@@ -1,31 +1,5 @@
-// import CredentialsProvider from "next-auth/providers/credentials";
-// const nextAuthConfig = {
-//   providers: [
-//     CredentialsProvider({
-//       credentials: {
-//         email: {},
-//         password: {},
-//       },
-//       authorize:async (credentials) => {
-//         const data = await fetch('http://127.0.0.1:3000/auth/login' , {
-//             method:'post', 
-//             body: JSON.stringify({email:credentials?.email , password:credentials?.password}),
-//             headers:{
-//                 'content-type':'application/json'
-//             }
-//         })
-
-//         const payload = await data.json()
-//         console.log('payload', payload)
-        
-//       },
-//     }),
-//   ],
-//   pages: { signIn: "/login" },
-// };
-// export default nextAuthConfig;
 import CredentialsProvider from "next-auth/providers/credentials";
-
+import { jwtDecode } from "jwt-decode";
 const nextAuthConfig = {
   providers: [
     CredentialsProvider({
@@ -37,7 +11,31 @@ const nextAuthConfig = {
       },
 
       async authorize(credentials) {
+        try {
+          const data = await fetch(`${process.env.API}auth/login`, {
+            method: "post",
+            body: JSON.stringify({
+              email: credentials?.email,
+              password: credentials?.password,
+            }),
+            headers: { "Content-type": "application/json" },
+          });
+          const payload = await data.json();
 
+          if (!data?.ok) {
+            return null;
+          } else {
+            const { sub } = jwtDecode(payload?.accessToken);
+
+            return {
+              id: sub,
+              token: payload?.accessToken,
+              message: payload?.message,
+            };
+          }
+        } catch (error) {
+          throw new Error(error.message);
+        }
       },
     }),
   ],
@@ -50,7 +48,17 @@ const nextAuthConfig = {
     strategy: "jwt",
   },
 
-  secret: process.env.NEXTAUTH_SECRET,
-};
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.accessToken = user.token;
+        token.userId = user.id;
+      }
 
+      return token;
+    },
+
+    secret: process.env.NEXTAUTH_SECRET,
+  },
+};
 export default nextAuthConfig;

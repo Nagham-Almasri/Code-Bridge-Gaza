@@ -11,7 +11,7 @@ import {
 } from "react-icons/fi";
 import { careerSchema } from "../schema/career.schema";
 import ErrorMessage from "@/app/_Components/ErrorMessage/ErrorMessage";
-import { useSignup } from "../../_context/SignupContext";
+import { useSignup } from "@/app/signup/_context/SignupContext";
 
 export default function CareerInputs() {
   const router = useRouter();

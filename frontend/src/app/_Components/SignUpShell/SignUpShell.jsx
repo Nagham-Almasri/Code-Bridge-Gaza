@@ -1,6 +1,10 @@
+
 "use client";
 
 import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { FiArrowLeft } from "react-icons/fi";
+
 import Logo from "@/app/_Components/Logo/Logo";
 import SignUpSteps from "@/app/_Components/SignUpSteps/SignUpSteps";
 import AuthSide from "../AuthSide/AuthSide";
@@ -28,39 +32,65 @@ const pagesData = {
 export default function SignUpShell({ children }) {
   const pathname = usePathname();
 
-  const currentPage = pagesData[pathname] || pagesData["/signup/personal"];
+  const currentPage =
+    pagesData[pathname] || pagesData["/signup/personal"];
 
   return (
     <main className="min-h-screen bg-[#f4f2ff]">
       <div className="grid min-h-screen lg:grid-cols-2">
-        <section className="flex min-h-screen flex-col sm:px-6 py-8 sm:px-10 lg:px-20">
+
+        <section className="flex min-h-screen flex-col py-8 sm:px-10 lg:px-20">
           <Logo />
 
           <div className="flex flex-1 items-center justify-center py-8">
-            <div className="w-full min-w-[340px] rounded-[28px] bg-white px-9 py-9 shadow-xl shadow-blue-100/70">
-              <p className="mb-5 text-sm font-medium text-slate-500">
-                Already have an account?{" "}
-                <a href="/login" className="font-bold text-violet-600">
-                  Log In
-                </a>
-              </p>
 
-              <h1 className="text-lg sm:text-2xl font-extrabold leading-tight text-slate-950">
-                {currentPage.title}
-              </h1>
+            <div className="w-full min-w-[340px]">
 
-              <p className="mt-2 text-sm font-medium text-slate-400">
-                {currentPage.subtitle}
-              </p>
+              {/* Change Account Type - Outside the Card */}
+              {pathname === "/signup/personal" && (
+                <Link
+                  href="/signup"
+                  className="mb-5 flex w-fit items-center gap-3 text-lg font-bold text-violet-600 transition-all hover:gap-4"
+                >
+                  <FiArrowLeft className="text-xl" />
+                  Change account type
+                </Link>
+              )}
 
-              <SignUpSteps activeStep={currentPage.activeStep} />
+              {/* White Registration Card */}
+              <div className="w-full rounded-[28px] bg-white px-9 py-9 shadow-xl shadow-blue-100/70">
 
-              <div className="mt-8">{children}</div>
+                <p className="mb-5 text-sm font-medium text-slate-500">
+                  Already have an account?{" "}
+                  <Link
+                    href="/login"
+                    className="font-bold text-violet-600"
+                  >
+                    Log In
+                  </Link>
+                </p>
+
+                <h1 className="text-lg sm:text-2xl font-extrabold leading-tight text-slate-950">
+                  {currentPage.title}
+                </h1>
+
+                <p className="mt-2 text-sm font-medium text-slate-400">
+                  {currentPage.subtitle}
+                </p>
+
+                <SignUpSteps activeStep={currentPage.activeStep} />
+
+                <div className="mt-8">
+                  {children}
+                </div>
+
+              </div>
             </div>
           </div>
         </section>
 
-   <AuthSide/>
+        <AuthSide />
+
       </div>
     </main>
   );
