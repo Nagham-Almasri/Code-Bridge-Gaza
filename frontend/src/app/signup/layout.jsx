@@ -1,14 +1,4 @@
-import React from 'react'
-import SignUpShell from '../_Components/SignUpShell/SignUpShell';
-import { SignupProvider } from './_context/SignupContext';
 
-
-
-export default function layout({children}) {
-  return (
- <>
-
-   <SignUpShell>{children}</SignUpShell>
- </>
-  )
+export default function SignupLayout({ children }) {
+  return <>{children}</>;
 }

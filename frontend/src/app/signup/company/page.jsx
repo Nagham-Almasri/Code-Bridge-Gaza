@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 
 "use client";
 
@@ -30,10 +29,8 @@ export default function CompanySignupPage() {
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-[#f4f3ff] via-white to-[#eeebff] px-5 py-14">
-
       <div className="mx-auto max-w-[990px]">
 
-        {/* Change Account Type */}
         <button
           type="button"
           onClick={() => router.push("/signup")}
@@ -43,12 +40,9 @@ export default function CompanySignupPage() {
           Change account type
         </button>
 
-        {/* Registration Card */}
         <section className="overflow-hidden rounded-[36px] bg-white shadow-[0_25px_80px_rgba(44,55,120,0.12)]">
 
-          {/* Header */}
-          <div className="bg-gradient-to-r from-[#294a98] to-[#6330a4] px-8 py-10 sm:px-12 sm:py-10">
-
+          <div className="bg-gradient-to-r from-[#294a98] to-[#6330a4] px-8 py-10 sm:px-12">
             <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl border border-white/10 bg-white/15 text-3xl text-white">
               <FiBriefcase />
             </div>
@@ -60,23 +54,18 @@ export default function CompanySignupPage() {
             <p className="mt-3 text-base font-medium text-blue-100 sm:text-lg">
               Join CodeBridge Gaza to connect with talented developers.
             </p>
-
           </div>
 
-          {/* Form */}
           <div className="p-7 sm:p-12">
-
             <form onSubmit={handleSubmit} className="space-y-7">
 
               <div className="grid grid-cols-1 gap-x-7 gap-y-6 md:grid-cols-2">
 
-                {/* Company Name */}
                 <div>
                   <label className="mb-3 flex items-center gap-2 text-base font-bold text-slate-900">
                     <FiBriefcase className="text-xl text-violet-600" />
                     Company Name
                   </label>
-
                   <input
                     name="companyName"
                     type="text"
@@ -86,13 +75,11 @@ export default function CompanySignupPage() {
                   />
                 </div>
 
-                {/* Company Email */}
                 <div>
                   <label className="mb-3 flex items-center gap-2 text-base font-bold text-slate-900">
                     <FiMail className="text-xl text-violet-600" />
                     Company Email
                   </label>
-
                   <input
                     name="email"
                     type="email"
@@ -102,13 +89,11 @@ export default function CompanySignupPage() {
                   />
                 </div>
 
-                {/* Company Description */}
                 <div className="md:col-span-2">
                   <label className="mb-3 flex items-center gap-2 text-base font-bold text-slate-900">
                     <FiFileText className="text-xl text-violet-600" />
                     Company Description
                   </label>
-
                   <textarea
                     name="description"
                     placeholder="Tell us about your company"
@@ -118,13 +103,11 @@ export default function CompanySignupPage() {
                   />
                 </div>
 
-                {/* Phone Number */}
                 <div>
                   <label className="mb-3 flex items-center gap-2 text-base font-bold text-slate-900">
                     <FiPhone className="text-xl text-violet-600" />
                     Phone Number
                   </label>
-
                   <input
                     name="phone"
                     type="tel"
@@ -134,13 +117,11 @@ export default function CompanySignupPage() {
                   />
                 </div>
 
-                {/* Company Location */}
                 <div>
                   <label className="mb-3 flex items-center gap-2 text-base font-bold text-slate-900">
                     <FiMapPin className="text-xl text-violet-600" />
                     Company Location
                   </label>
-
                   <input
                     name="location"
                     type="text"
@@ -150,13 +131,11 @@ export default function CompanySignupPage() {
                   />
                 </div>
 
-                {/* Password */}
                 <div>
                   <label className="mb-3 flex items-center gap-2 text-base font-bold text-slate-900">
                     <FiLock className="text-xl text-violet-600" />
                     Password
                   </label>
-
                   <div className="relative">
                     <input
                       name="password"
@@ -166,7 +145,6 @@ export default function CompanySignupPage() {
                       required
                       className="h-[62px] w-full rounded-[20px] border-2 border-slate-200 bg-white px-5 pr-14 text-base font-medium outline-none transition focus:border-violet-500"
                     />
-
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
@@ -177,13 +155,11 @@ export default function CompanySignupPage() {
                   </div>
                 </div>
 
-                {/* Confirm Password */}
                 <div>
                   <label className="mb-3 flex items-center gap-2 text-base font-bold text-slate-900">
                     <FiLock className="text-xl text-violet-600" />
                     Confirm Password
                   </label>
-
                   <div className="relative">
                     <input
                       name="confirmPassword"
@@ -193,7 +169,6 @@ export default function CompanySignupPage() {
                       required
                       className="h-[62px] w-full rounded-[20px] border-2 border-slate-200 bg-white px-5 pr-14 text-base font-medium outline-none transition focus:border-violet-500"
                     />
-
                     <button
                       type="button"
                       onClick={() => setShowConfirmPassword(!showConfirmPassword)}
@@ -206,9 +181,7 @@ export default function CompanySignupPage() {
 
               </div>
 
-              {/* Buttons */}
               <div className="flex flex-col gap-4 pt-2 sm:flex-row">
-
                 <button
                   type="button"
                   onClick={() => router.push("/signup")}
@@ -223,10 +196,8 @@ export default function CompanySignupPage() {
                 >
                   Create Company Account
                 </button>
-
               </div>
 
-              {/* Login */}
               <p className="pt-1 text-center text-base text-slate-500">
                 Already have an account?{" "}
                 <Link
@@ -238,18 +209,9 @@ export default function CompanySignupPage() {
               </p>
 
             </form>
-
           </div>
         </section>
       </div>
     </main>
   );
-=======
-import React from 'react'
-
-export default function page() {
-  return (
-    <div>page</div>
-  )
->>>>>>> origin/main
 }
