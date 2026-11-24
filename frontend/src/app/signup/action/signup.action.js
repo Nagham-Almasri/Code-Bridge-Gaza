@@ -1,11 +1,10 @@
 "use server";
 
 
-
 export async function handleSignup(formData) {
   try {
  
-  const data = await fetch(`https://code-bridge-gaza.onrender.com/auth/register`, {
+  const data = await fetch(`${process?.env?.API}auth/register`, {
     method:'POST', 
     body: JSON.stringify(formData), 
     headers: {
@@ -15,7 +14,11 @@ export async function handleSignup(formData) {
   const payload = await data.json()
 
 if(payload?.success === true){
-        return true
+    return {
+        success: true,
+        email: payload?.results.user.email,
+        message : payload?.results?.message
+      };
     }
     else if (payload?.statusCode == 409){
         return false;

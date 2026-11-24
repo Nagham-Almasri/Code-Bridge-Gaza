@@ -95,14 +95,12 @@ export default function LoginForm() {
 
                 <input
                   {...register("password")}
-                  type="password"
+                  type="passwo rd"
                   placeholder="Enter your password"
                   className="h-full flex-1 bg-transparent text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400"
                 />
 
-                <button type="button" className="text-slate-400">
-                  <FiEye className="text-xl" />
-                </button>
+     
               </div>
               {errors.password && (
                 <ErrorMessage msg={errors?.password?.message} />
@@ -121,9 +119,6 @@ export default function LoginForm() {
                   className="h-full flex-1 bg-transparent text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400"
                 />
 
-                <button type="button" className="text-slate-400">
-                  <FiEye className="text-xl" />
-                </button>
               </div>
             </>
           )}

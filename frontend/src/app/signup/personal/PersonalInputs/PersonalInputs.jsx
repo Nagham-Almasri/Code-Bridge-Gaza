@@ -128,7 +128,6 @@ export default function PersonalInputs() {
                 className="h-full flex-1 bg-transparent text-sm font-medium outline-none placeholder:text-slate-400"
               />
 
-              <FiEye className="text-xl text-slate-400" />
             </div>
             {errors?.password?.message && (
               <ErrorMessage msg={errors?.password?.message} />
@@ -147,7 +146,6 @@ export default function PersonalInputs() {
                 className="h-full flex-1 bg-transparent text-sm font-medium outline-none placeholder:text-slate-400"
               />
 
-              <FiEye className="text-xl text-slate-400" />
             </div>
           </>
         )}
@@ -170,7 +168,6 @@ export default function PersonalInputs() {
                 className="h-full flex-1 bg-transparent text-sm font-medium outline-none placeholder:text-slate-400"
               />
 
-              <FiEye className="text-xl text-slate-400" />
             </div>
             {errors?.confirmPassword?.message && (
               <ErrorMessage msg={errors?.confirmPassword?.message} />
@@ -189,7 +186,6 @@ export default function PersonalInputs() {
                 className="h-full flex-1 bg-transparent text-sm font-medium outline-none placeholder:text-slate-400"
               />
 
-              <FiEye className="text-xl text-slate-400" />
             </div>
           </>
         )}
