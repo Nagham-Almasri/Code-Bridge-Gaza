@@ -61,13 +61,31 @@ export class AuthController {
   @UseGuards(AuthGuard)
   @Get('me')
   me(@Req() req: any) {
-    return req.user;
+    return { success: true, results: toSafeAccount(req.account) };
   }
 
   @UseGuards(AuthGuard, RolesGuard)
   @Roles(AccountRole.ADMIN)
   @Get('admin-test')
   adminTest(@Req() req: any) {
-    return { message: 'You are admin', user: req.user };
+    return { message: 'You are admin', user: toSafeAccount(req.account) };
   }
+}
+
+// AuthGuard puts the signed-in account on req.account; strip secrets before returning it.
+const SECRET_FIELDS = [
+  'password',
+  'refreshTokenHash',
+  'confirmEmailOtp',
+  'emailOtpExpiresAt',
+  'resetPasswordOtp',
+  'resetPasswordOtpExpiresAt',
+  'profileImagePublicId',
+];
+
+function toSafeAccount(account: any) {
+  if (!account) return null;
+  const data = typeof account.toObject === 'function' ? account.toObject() : { ...account };
+  for (const field of SECRET_FIELDS) delete data[field];
+  return data;
 }
