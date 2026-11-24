@@ -5,7 +5,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import ErrorMessage from "@/app/_Components/ErrorMessage/ErrorMessage";
 import { loginSchema } from "../schema/login.schema";
-
+import { signIn } from "next-auth/react";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 export default function LoginForm() {
   const {
     register,
@@ -18,9 +20,25 @@ export default function LoginForm() {
       password: "",
     },
   });
+  const router = useRouter();
 
-  function handleLogin(data) {
-    console.log("data", data);
+  async function handleLogin(data) {
+    const result = await signIn("credentials", {
+      email: data.email,
+      password: data.password,
+      redirect: false,
+    });
+
+    if (result?.ok) {
+      setTimeout(() => {
+        toast.success("login successfuly", { position: "top-right" });
+      }, 500);
+      router.push("/dashboard");
+    } else {
+      setTimeout(() => {
+        toast.error("invalid email or password", { position: "top-right" });
+      }, 500);
+    }
   }
 
   return (
@@ -99,8 +117,6 @@ export default function LoginForm() {
                   placeholder="Enter your password"
                   className="h-full flex-1 bg-transparent text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400"
                 />
-
-     
               </div>
               {errors.password && (
                 <ErrorMessage msg={errors?.password?.message} />
@@ -118,7 +134,6 @@ export default function LoginForm() {
                   placeholder="Enter your password"
                   className="h-full flex-1 bg-transparent text-sm font-medium text-slate-900 outline-none placeholder:text-slate-400"
                 />
-
               </div>
             </>
           )}
