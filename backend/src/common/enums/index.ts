@@ -59,3 +59,9 @@ export enum CourseStatus {
   ACTIVE = 'active',
   ARCHIVED = 'archived',
 }
+
+export enum CourseLevel {
+  BEGINNER = 'beginner',
+  INTERMEDIATE = 'intermediate',
+  ADVANCED = 'advanced',
+}

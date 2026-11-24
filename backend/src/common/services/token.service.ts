@@ -22,6 +22,7 @@ export class TokenService {
       case AccountRole.ADMIN:
         secret = this._configService.get<string>('JWT_ADMIN_SECRET');
         expiresIn = this._configService.get<string>('JWT_ADMIN_EXPIRES');
+        break;
       case AccountRole.COMPANY:
         secret = this._configService.get<string>('JWT_COMPANY_SECRET');
         expiresIn = this._configService.get<string>('JWT_COMPANY_EXPIRES');

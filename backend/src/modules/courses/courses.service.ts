@@ -4,7 +4,6 @@ import { Model, isValidObjectId } from "mongoose";
 import { Course, CourseDocument  } from '../../DB/models/course.model.js';
 import { CourseStatus } from '../../common/enums/index.js';
 import { QueryCoursesDto } from './dto/query-courses.dto.js';
-import { FileTemplateEngine } from '@nestjs/mail';
 import { Enrollment , EnrollmentDocument} from '../../DB/models/enrollment.model.js';
 import { CloudinaryService } from '../../common/services/cloudinary.service.js';
 import { AdminQueryCoursesDto } from './dto/admin-query-courses.dto.js';
@@ -28,7 +27,7 @@ constructor(
 
         const filter: Record<string, any> = { status:CourseStatus.ACTIVE};
         if( query.category) filter.category = query.category.trim().toLowerCase();
-        if(query.statue) filter.level = query.statue;
+        if (query.level) filter.level = query.level;
         if(query.technology) filter.technology={        $regex: `^${escapeRegex(query.technology.trim())}$`,
         $options: 'i',};
         if(query.search) filter.$text = { $search: query.search};

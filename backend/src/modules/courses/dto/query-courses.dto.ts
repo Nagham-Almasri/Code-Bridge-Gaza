@@ -1,6 +1,6 @@
 import { Type } from 'class-transformer';
 import { IsEnum, IsInt, IsOptional, IsString, Max, Min } from 'class-validator';
-import { CourseStatus} from "../../../common/enums/index.js"
+import { CourseLevel } from "../../../common/enums/index.js"
 
 export class QueryCoursesDto  {
     @IsOptional()
@@ -12,8 +12,8 @@ export class QueryCoursesDto  {
     category?: string;
 
     @IsOptional()
-    @IsEnum(CourseStatus)
-    statue?: string
+    @IsEnum(CourseLevel)
+    level?: CourseLevel;
 
     @IsOptional()
     @IsString()

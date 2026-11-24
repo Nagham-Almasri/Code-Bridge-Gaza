@@ -31,6 +31,7 @@ export class Enrollment {
 
 export const EnrollmentSchema = SchemaFactory.createForClass(Enrollment);
 EnrollmentSchema.index({ user: 1, course: 1 }, { unique: true });
+EnrollmentSchema.index({ user: 1, status: 1, enrolledAt: -1 });
 
 export const EnrollmentModel = MongooseModule.forFeature([
   { name: Enrollment.name, schema: EnrollmentSchema },

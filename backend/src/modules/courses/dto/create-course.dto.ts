@@ -1,6 +1,6 @@
 import { Transform } from 'class-transformer';
 import { IsEnum, IsNotEmpty, IsString, IsUrl, MaxLength } from 'class-validator';
-import { CourseStatus } from '../../../common/enums/index.js';
+import { CourseLevel } from '../../../common/enums/index.js';
 
 export class CreateCourseDto {
   @IsString() @IsNotEmpty() @MaxLength(150)
@@ -10,8 +10,8 @@ export class CreateCourseDto {
   @IsString() @IsNotEmpty() @MaxLength(60)
   category: string;
 
-  @IsEnum(CourseStatus)
-  level: CourseStatus;
+  @IsEnum(CourseLevel)
+  level: CourseLevel;
 
   @IsString() @IsNotEmpty() @MaxLength(60)
   technology: string;
