@@ -4,6 +4,9 @@ import Link from "next/link";
 import { FiArrowLeft, FiMail, FiKey } from "react-icons/fi";
 
 export default function ForgotPasswordPage() {
+
+
+  
   return (
     <main className="min-h-screen bg-gradient-to-br from-[#f5f7ff] via-white to-[#f3efff] px-5 py-12">
 

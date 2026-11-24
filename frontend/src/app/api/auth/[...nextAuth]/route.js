@@ -1,6 +1,7 @@
-const { default: nextAuthConfig } = require("@/auth");
-const { default: NextAuth } = require("next-auth");
+import nextAuthConfig from "@/auth";
+import NextAuth from "next-auth";
 
-const handler = NextAuth(nextAuthConfig)
 
-export  {handler as GET , handler as POST}
+const handler = NextAuth(nextAuthConfig);
+
+export { handler as GET, handler as POST };

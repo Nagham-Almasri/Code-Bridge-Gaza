@@ -7,11 +7,11 @@ import type { Connection } from 'mongoose';
 import { AppController } from './app.controller.js';
 import { AppService } from './app.service.js';
 import { AuthModule } from './modules/Auth/auth.module.js';
-import { JobsModule } from './modules/Jobs/jobs.module.js';
 import { CompanyModule } from './modules/Company/company.module.js';
 import { ApplicationModule } from './modules/Application/application.module.js';
 import { MailModule } from './modules/mail/mail.module.js';
 import { ProfileModule } from './modules/Profile/profile.module.js';
+import { JobsModule } from './modules/Jobs/jobs.module.js';
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -33,9 +33,9 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
       inject: [ConfigService],
     }),
     AuthModule,
-    JobsModule,
     CompanyModule,
     ApplicationModule,
+    JobsModule,
     MailModule,
     ProfileModule,
   ],

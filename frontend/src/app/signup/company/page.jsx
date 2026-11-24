@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 "use client";
 
@@ -243,4 +244,12 @@ export default function CompanySignupPage() {
       </div>
     </main>
   );
+=======
+import React from 'react'
+
+export default function page() {
+  return (
+    <div>page</div>
+  )
+>>>>>>> origin/main
 }

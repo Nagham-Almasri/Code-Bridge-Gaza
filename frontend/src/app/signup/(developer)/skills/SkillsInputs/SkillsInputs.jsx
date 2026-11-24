@@ -54,6 +54,8 @@ updateSkills(data);
     },
   };
 
+  //  json body
+
      const sentData = {
       fullName: formData.personal.fullName,
       email: formData.personal.email,
@@ -64,6 +66,7 @@ updateSkills(data);
       skills: formData.skills.skills ,
       acceptTerms: formData.skills.acceptTerms,
     };
+    
   if(Object.values(sentData).includes(undefined)){
     router.push('/signup/personal'); 
     return;
@@ -71,20 +74,22 @@ updateSkills(data);
 
   
   const result = await handleSignup(sentData);
-  if (!!result) {
-  setTimeout(()=>{
-     toast.success('Account created successfully' , 
+ if (result.success) {
+   sessionStorage.setItem("verificationEmail", result.email);
+    setTimeout(()=>{
+     toast.success(result?.message , 
       {position:'top-right' , style : {padding:'0.5rem'}})
-     router.push('/login')
+     router.push('/verify-email')
   },500)
   setIsLoading(false)
-  }
+ 
+} 
   else{
       setTimeout(()=>{
      toast.error('This user already have an account', {position:'top-right' , style : {padding:'0.5rem'}})
   },500)
    setIsLoading(false)
-   
+
   }
 
 };
