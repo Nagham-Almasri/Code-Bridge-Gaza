@@ -1,7 +1,7 @@
 {
   "info": {
     "name": "CodeBridge Gaza API",
-    "description": "Run \"login\" first: it saves the token into userToken / adminToken automatically. Replace the email and password in the login body with your own test account.",
+    "description": "Run a login request in Auth first: it saves the token into userToken / adminToken / companyToken automatically. Replace the email and password with your own test account. courseId, jobId and applicationId are collection variables: change them to ids from your database.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
   },
   "variable": [
@@ -20,6 +20,18 @@
     {
       "key": "companyToken",
       "value": ""
+    },
+    {
+      "key": "courseId",
+      "value": "6b04ed1aa59f9091aa425a6b"
+    },
+    {
+      "key": "jobId",
+      "value": "6aefa590ea49a7fdb781b937"
+    },
+    {
+      "key": "applicationId",
+      "value": ""
     }
   ],
   "item": [
@@ -37,7 +49,20 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/admin/jobs?approvalStatus=approved"
+              "raw": "{{baseUrl}}/admin/jobs?approvalStatus=approved",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "jobs"
+              ],
+              "query": [
+                {
+                  "key": "approvalStatus",
+                  "value": "approved"
+                }
+              ]
             }
           }
         },
@@ -52,7 +77,16 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/admin/jobs/6aefa590ea49a7fdb781b937/approve"
+              "raw": "{{baseUrl}}/admin/jobs/6aefa590ea49a7fdb781b937/approve",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "jobs",
+                "6aefa590ea49a7fdb781b937",
+                "approve"
+              ]
             }
           }
         },
@@ -67,7 +101,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/admin/jobs/6aefa5a3ea49a7fdb781b939"
+              "raw": "{{baseUrl}}/admin/jobs/6aefa5a3ea49a7fdb781b939",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "jobs",
+                "6aefa5a3ea49a7fdb781b939"
+              ]
             }
           }
         },
@@ -82,7 +124,16 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/admin/jobs/6af2336c9d9d75553fa9efcc/reject"
+              "raw": "{{baseUrl}}/admin/jobs/6af2336c9d9d75553fa9efcc/reject",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "jobs",
+                "6af2336c9d9d75553fa9efcc",
+                "reject"
+              ]
             },
             "body": {
               "mode": "raw",
@@ -106,7 +157,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/admin/jobs"
+              "raw": "{{baseUrl}}/admin/jobs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "jobs"
+              ]
             }
           }
         },
@@ -121,7 +179,20 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/admin/jobs?approvalStatus=rejected"
+              "raw": "{{baseUrl}}/admin/jobs?approvalStatus=rejected",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "jobs"
+              ],
+              "query": [
+                {
+                  "key": "approvalStatus",
+                  "value": "rejected"
+                }
+              ]
             }
           }
         }
@@ -141,7 +212,23 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/jobs?page=1&limit=1"
+              "raw": "{{baseUrl}}/jobs?page=1&limit=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "jobs"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "1"
+                }
+              ]
             }
           }
         },
@@ -156,12 +243,18 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/jobs"
+              "raw": "{{baseUrl}}/jobs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "jobs"
+              ]
             }
           }
         },
         {
-          "name": "Get job By ID",
+          "name": "Filter Jobs by Type",
           "request": {
             "method": "GET",
             "header": [
@@ -171,8 +264,79 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/jobs?employmentType=internship"
+              "raw": "{{baseUrl}}/jobs?employmentType=internship",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "jobs"
+              ],
+              "query": [
+                {
+                  "key": "employmentType",
+                  "value": "internship"
+                }
+              ]
             }
+          }
+        },
+        {
+          "name": "Get Job By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/jobs/{{jobId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "jobs",
+                "{{jobId}}"
+              ]
+            },
+            "description": "Set the jobId variable first.\n\nRequires a USER token."
+          }
+        },
+        {
+          "name": "Search Jobs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/jobs?search=developer&location=gaza&experienceLevel=entry",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "jobs"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "developer"
+                },
+                {
+                  "key": "location",
+                  "value": "gaza"
+                },
+                {
+                  "key": "experienceLevel",
+                  "value": "entry"
+                }
+              ]
+            },
+            "description": "experienceLevel: entry | mid | senior. employmentType: full-time | part-time | contract | internship | remote.\n\nRequires a USER token."
           }
         }
       ]
@@ -195,7 +359,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/profile/me"
+              "raw": "{{baseUrl}}/profile/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "profile",
+                "me"
+              ]
             },
             "body": {
               "mode": "raw",
@@ -223,7 +394,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/profile/me"
+              "raw": "{{baseUrl}}/profile/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "profile",
+                "me"
+              ]
             }
           }
         },
@@ -238,7 +416,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/profile/me"
+              "raw": "{{baseUrl}}/profile/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "profile",
+                "me"
+              ]
             },
             "auth": {
               "type": "noauth"
@@ -256,7 +441,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/profile/me/photo"
+              "raw": "{{baseUrl}}/profile/me/photo",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "profile",
+                "me",
+                "photo"
+              ]
             },
             "body": {
               "mode": "formdata",
@@ -282,7 +475,14 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/auth/reset-password"
+              "raw": "{{baseUrl}}/auth/reset-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "reset-password"
+              ]
             },
             "body": {
               "mode": "raw",
@@ -301,7 +501,14 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/auth/forgot-password"
+              "raw": "{{baseUrl}}/auth/forget-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "forget-password"
+              ]
             },
             "body": {
               "mode": "raw",
@@ -315,12 +522,19 @@
           }
         },
         {
-          "name": "login",
+          "name": "Login (User)",
           "request": {
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/auth/login"
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
             },
             "body": {
               "mode": "raw",
@@ -356,7 +570,14 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/auth/resend-otp"
+              "raw": "{{baseUrl}}/auth/resend-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "resend-otp"
+              ]
             },
             "body": {
               "mode": "raw",
@@ -375,7 +596,14 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/auth/verify-email"
+              "raw": "{{baseUrl}}/auth/verify-email",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "verify-email"
+              ]
             },
             "body": {
               "mode": "raw",
@@ -394,7 +622,14 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/auth/register"
+              "raw": "{{baseUrl}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
             },
             "body": {
               "mode": "raw",
@@ -405,6 +640,140 @@
                 }
               }
             }
+          }
+        },
+        {
+          "name": "Login (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"password\": \"your-password\",\n  \"role\": \"ADMIN\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Logs in and saves the token into adminToken automatically.\n\nNo token needed."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.accessToken) {",
+                  "  const role = String(res.role || '').toUpperCase();",
+                  "  const name = role === 'ADMIN' ? 'adminToken' : role === 'COMPANY' ? 'companyToken' : 'userToken';",
+                  "  pm.collectionVariables.set(name, res.accessToken);",
+                  "  console.log('Saved token to ' + name);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login (Company)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"password\": \"your-password\",\n  \"role\": \"COMPANY\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Logs in and saves the token into companyToken automatically.\n\nNo token needed."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.accessToken) {",
+                  "  const role = String(res.role || '').toUpperCase();",
+                  "  const name = role === 'ADMIN' ? 'adminToken' : role === 'COMPANY' ? 'companyToken' : 'userToken';",
+                  "  pm.collectionVariables.set(name, res.accessToken);",
+                  "  console.log('Saved token to ' + name);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Current Account",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            },
+            "description": "Returns the signed-in account.\n\nRequires a USER token."
+          }
+        },
+        {
+          "name": "Admin Test",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/admin-test",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "admin-test"
+              ]
+            },
+            "description": "Checks the admin role works.\n\nRequires a ADMIN token."
           }
         }
       ]
@@ -423,7 +792,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/admin/courses"
+              "raw": "{{baseUrl}}/admin/courses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "courses"
+              ]
             },
             "body": {
               "mode": "raw",
@@ -447,7 +823,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/admin/courses"
+              "raw": "{{baseUrl}}/admin/courses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "courses"
+              ]
             }
           }
         },
@@ -462,7 +845,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/admin/courses/6b04e5aba59f9091aa425a68"
+              "raw": "{{baseUrl}}/admin/courses/6b04e5aba59f9091aa425a68",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "courses",
+                "6b04e5aba59f9091aa425a68"
+              ]
             },
             "body": {
               "mode": "raw",
@@ -486,7 +877,16 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/admin/courses/6b04e5aba59f9091aa425a68/status"
+              "raw": "{{baseUrl}}/admin/courses/6b04e5aba59f9091aa425a68/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "courses",
+                "6b04e5aba59f9091aa425a68",
+                "status"
+              ]
             },
             "body": {
               "mode": "raw",
@@ -510,7 +910,16 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/admin/courses/6b04e5aba59f9091aa425a68/image"
+              "raw": "{{baseUrl}}/admin/courses/6b04e5aba59f9091aa425a68/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "courses",
+                "6b04e5aba59f9091aa425a68",
+                "image"
+              ]
             },
             "body": {
               "mode": "formdata",
@@ -523,6 +932,83 @@
                 }
               ]
             }
+          }
+        },
+        {
+          "name": "Get Course Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/courses/{{courseId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "courses",
+                "{{courseId}}"
+              ]
+            },
+            "description": "Requires a ADMIN token."
+          }
+        },
+        {
+          "name": "Get Archived Courses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/courses?status=archived",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "courses"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "archived"
+                }
+              ]
+            },
+            "description": "Requires a ADMIN token."
+          }
+        },
+        {
+          "name": "Delete Course",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/courses/{{courseId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "courses",
+                "{{courseId}}"
+              ]
+            },
+            "description": "Fails with 400 if anyone is enrolled; archive the course instead.\n\nRequires a ADMIN token."
           }
         }
       ]
@@ -541,7 +1027,14 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses/categories"
+              "raw": "{{baseUrl}}/courses/categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "categories"
+              ]
             }
           }
         },
@@ -556,7 +1049,19 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses?search=Python"
+              "raw": "{{baseUrl}}/courses?search=Python",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "Python"
+                }
+              ]
             }
           }
         },
@@ -571,7 +1076,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses"
+              "raw": "{{baseUrl}}/courses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses"
+              ]
             }
           }
         },
@@ -586,7 +1097,23 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses?level=beginner&category=programming"
+              "raw": "{{baseUrl}}/courses?level=beginner&category=programming",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses"
+              ],
+              "query": [
+                {
+                  "key": "level",
+                  "value": "beginner"
+                },
+                {
+                  "key": "category",
+                  "value": "programming"
+                }
+              ]
             }
           }
         },
@@ -601,7 +1128,19 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses?category=programming"
+              "raw": "{{baseUrl}}/courses?category=programming",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses"
+              ],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "programming"
+                }
+              ]
             }
           }
         },
@@ -616,7 +1155,23 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses?search=Python&level=beginner"
+              "raw": "{{baseUrl}}/courses?search=Python&level=beginner",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "Python"
+                },
+                {
+                  "key": "level",
+                  "value": "beginner"
+                }
+              ]
             }
           }
         },
@@ -631,7 +1186,23 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses?page=2&limit=2"
+              "raw": "{{baseUrl}}/courses?page=2&limit=2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "2"
+                },
+                {
+                  "key": "limit",
+                  "value": "2"
+                }
+              ]
             }
           }
         },
@@ -646,7 +1217,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses/6b04ed1aa59f9091aa425a6b/enroll"
+              "raw": "{{baseUrl}}/courses/6b04ed1aa59f9091aa425a6b/enroll",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "6b04ed1aa59f9091aa425a6b",
+                "enroll"
+              ]
             }
           }
         },
@@ -661,7 +1240,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses/6b04ed1aa59f9091aa425a6b/progress"
+              "raw": "{{baseUrl}}/courses/6b04ed1aa59f9091aa425a6b/progress",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "6b04ed1aa59f9091aa425a6b",
+                "progress"
+              ]
             },
             "body": {
               "mode": "raw",
@@ -675,7 +1262,7 @@
           }
         },
         {
-          "name": "Update Progress (Complete Course",
+          "name": "Update Progress (Complete Course)",
           "request": {
             "method": "PATCH",
             "header": [
@@ -685,7 +1272,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses/6b04ed44a59f9091aa425a6e/progress"
+              "raw": "{{baseUrl}}/courses/6b04ed44a59f9091aa425a6e/progress",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "6b04ed44a59f9091aa425a6e",
+                "progress"
+              ]
             },
             "body": {
               "mode": "raw",
@@ -709,7 +1304,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses/me/enrollments"
+              "raw": "{{baseUrl}}/courses/me/enrollments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "me",
+                "enrollments"
+              ]
             }
           }
         },
@@ -724,7 +1327,21 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses/me/enrollments?status=completed"
+              "raw": "{{baseUrl}}/courses/me/enrollments?status=completed",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "me",
+                "enrollments"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "completed"
+                }
+              ]
             }
           }
         },
@@ -739,7 +1356,16 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses/me/enrollments/6b04ed44a59f9091aa425a6e"
+              "raw": "{{baseUrl}}/courses/me/enrollments/6b04ed44a59f9091aa425a6e",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "me",
+                "enrollments",
+                "6b04ed44a59f9091aa425a6e"
+              ]
             }
           }
         },
@@ -754,7 +1380,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses/6b04ed44a59f9091aa425a6e/enroll?="
+              "raw": "{{baseUrl}}/courses/6b04ed44a59f9091aa425a6e/enroll",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "6b04ed44a59f9091aa425a6e",
+                "enroll"
+              ]
             }
           }
         },
@@ -769,7 +1403,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses/6b04ed44a59f9091aa425a6e/progress"
+              "raw": "{{baseUrl}}/courses/6b04ed44a59f9091aa425a6e/progress",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "6b04ed44a59f9091aa425a6e",
+                "progress"
+              ]
             },
             "body": {
               "mode": "raw",
@@ -793,7 +1435,15 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses/6b04ed44a59f9091aa425a6e/enroll"
+              "raw": "{{baseUrl}}/courses/6b04ed44a59f9091aa425a6e/enroll",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "6b04ed44a59f9091aa425a6e",
+                "enroll"
+              ]
             }
           }
         },
@@ -808,8 +1458,444 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/courses/recommended?limit=10"
+              "raw": "{{baseUrl}}/courses/recommended?limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "recommended"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
             }
+          }
+        },
+        {
+          "name": "Get Course Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/{{courseId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "{{courseId}}"
+              ]
+            },
+            "description": "Requires a USER token."
+          }
+        },
+        {
+          "name": "Enroll Again (Already Enrolled)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/{{courseId}}/enroll",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "{{courseId}}",
+                "enroll"
+              ]
+            },
+            "description": "Expected: 409 Conflict.\n\nRequires a USER token."
+          }
+        },
+        {
+          "name": "Update Progress (Invalid Value)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/{{courseId}}/progress",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "{{courseId}}",
+                "progress"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"progress\": 150\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Expected: 400 validation error.\n\nRequires a USER token."
+          }
+        },
+        {
+          "name": "Enroll - Admin Token (Forbidden)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/{{courseId}}/enroll",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "{{courseId}}",
+                "enroll"
+              ]
+            },
+            "description": "Expected: 403, only users can enroll.\n\nRequires a ADMIN token."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Application",
+      "item": [
+        {
+          "name": "Apply for Job",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/application/{{jobId}}/apply",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "application",
+                "{{jobId}}",
+                "apply"
+              ]
+            },
+            "description": "The user must have a generated CV first, and the job must be approved and active.\n\nRequires a USER token."
+          }
+        },
+        {
+          "name": "My Applications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/application/my-applications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "application",
+                "my-applications"
+              ]
+            },
+            "description": "Requires a USER token."
+          }
+        },
+        {
+          "name": "Update Application Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "COMPANY {{companyToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/application/{{applicationId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "application",
+                "{{applicationId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"accepted\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "status: pending | accepted | rejected.\n\nRequires a COMPANY token."
+          }
+        },
+        {
+          "name": "Get Job Applications (Company)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "COMPANY {{companyToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/application/company/me/jobs/{{jobId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "application",
+                "company",
+                "me",
+                "jobs",
+                "{{jobId}}"
+              ]
+            },
+            "description": "Lists the applications for one of the company's jobs.\n\nRequires a COMPANY token."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Company",
+      "item": [
+        {
+          "name": "Add Company",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/company/add-company",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "company",
+                "add-company"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyName\": \"Tech Gaza\",\n  \"description\": \"Software company in Gaza\",\n  \"address\": \"Gaza City\",\n  \"email\": \"company@example.com\",\n  \"password\": \"your-password\",\n  \"confirmPassword\": \"your-password\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Creates a company account (password at least 8 characters).\n\nNo token needed."
+          }
+        },
+        {
+          "name": "Get My Company",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "COMPANY {{companyToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/company/get-company",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "company",
+                "get-company"
+              ]
+            },
+            "description": "Requires a COMPANY token."
+          }
+        },
+        {
+          "name": "Update Company",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "COMPANY {{companyToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/company/update-company",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "company",
+                "update-company"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Updated company description\",\n  \"address\": \"Gaza City\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Requires a COMPANY token."
+          }
+        },
+        {
+          "name": "Search Companies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/company/search-companies?search=tech&page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "company",
+                "search-companies"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "tech"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "No token needed."
+          }
+        },
+        {
+          "name": "Upload Logo",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "COMPANY {{companyToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/company/upload-logo",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "company",
+                "upload-logo"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": [],
+                  "description": "Choose an image file"
+                }
+              ]
+            },
+            "description": "Image file, max 2 MB.\n\nRequires a COMPANY token."
+          }
+        },
+        {
+          "name": "Remove Logo",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "COMPANY {{companyToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/company/logo",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "company",
+                "logo"
+              ]
+            },
+            "description": "Requires a COMPANY token."
+          }
+        },
+        {
+          "name": "Delete Company Account",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "COMPANY {{companyToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/company/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "company",
+                "me"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"your-password\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Permanently deletes the company account.\n\nRequires a COMPANY token."
           }
         }
       ]
