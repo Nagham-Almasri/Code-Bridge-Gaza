@@ -4,7 +4,7 @@ import { v2 as cloudinary } from 'cloudinary';
 import { randomUUID } from 'crypto';
 import type { UploadApiResponse } from 'cloudinary';
 
-export type ImageFolder = 'COMPANY' | 'PROFILE'| 'COURSE';
+export type ImageFolder = 'COMPANY' | 'PROFILE' | 'COURSE';
 
 export interface UploadedImage {
   url: string;
@@ -70,7 +70,7 @@ export class CloudinaryService {
   }
 
   async uploadPDF(pdfBuffer: Buffer, userId: string): Promise<UploadedFile> {
-    const publicId = `${randomUUID()}.pdf`;
+    const publicId = `${randomUUID()}`;
 
     const result = await new Promise<UploadApiResponse>((resolve, reject) => {
       const stream = cloudinary.uploader.upload_stream(
@@ -78,6 +78,8 @@ export class CloudinaryService {
           folder: `CV/${userId}`,
           public_id: publicId,
           resource_type: 'raw',
+          type: 'upload',
+          access_mode: 'public',
         },
         (error, result) => {
           if (error) {
