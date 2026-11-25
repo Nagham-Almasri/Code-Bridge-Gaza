@@ -13,6 +13,7 @@ import { MailModule } from './modules/mail/mail.module.js';
 import { ProfileModule } from './modules/Profile/profile.module.js';
 import { JobsModule } from './modules/Jobs/jobs.module.js';
 import { CoursesModule } from './modules/courses/courses.module.js';
+import { CvModule } from './modules/cv/cv.module.js';
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -40,6 +41,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     MailModule,
     ProfileModule,
     CoursesModule,
+    CvModule,
   ],
   controllers: [AppController],
   providers: [AppService],
