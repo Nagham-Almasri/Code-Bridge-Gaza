@@ -3,9 +3,8 @@
 import { useRouter } from "next/navigation";
 import { FiChevronLeft } from "react-icons/fi";
 import { useForm } from "react-hook-form";
-import { useSignup } from "../../_context/SignupContext";
-import { handleSignup } from "../../action/signup.action";
-import { toast } from "react-toastify";
+import { useSignup } from "@/app/signup/_context/SignupContext";
+import { handleSignup } from "../../../action/signup.action";import { toast } from "react-toastify";
 import { useState } from "react";
 
 
