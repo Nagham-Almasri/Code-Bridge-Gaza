@@ -30,7 +30,7 @@ export default function ProfileComp() {
     },
   ];
 
- const {data}= useQuery({queryKey:['userProfile'], 
+ const {data , isLoading}= useQuery({queryKey:['userProfile'], 
  queryFn:async ()=>{
     const data = await fetch(`/api/userProfile`)
     if(!data?.ok){

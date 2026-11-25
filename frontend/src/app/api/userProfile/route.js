@@ -13,7 +13,7 @@ export async function GET(request){
       { status: 401 }
     );
   }
-  console.log(token?.accessToken);
+  console.log(token?.accessToken ,'tooken');
   
 
    const data = await fetch(`${process.env.API}profile/me` , {
@@ -23,6 +23,9 @@ export async function GET(request){
     }
 })
 const payload = await data.json()
+// if(!data?.ok){
+//   return NextResponse.json()
+// }
 console.log(payload,'payload');
 
 return NextResponse.json(payload);
