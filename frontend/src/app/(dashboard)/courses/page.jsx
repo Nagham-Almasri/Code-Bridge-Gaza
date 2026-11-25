@@ -12,9 +12,7 @@ export default function CoursesPage() {
 
         <YourCourses />
 
-        <CoursesFilter />
-
-        <RecommendedCourses />
+   
 
       </div>
     </div>

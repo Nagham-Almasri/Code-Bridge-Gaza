@@ -1,8 +1,10 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { FiBookOpen, FiBriefcase, FiDownload,FiLinkedin ,FiGithub ,FiFacebook ,FiMessageCircle , FiEdit3, FiMail, FiMapPin, FiPhone, FiUser } from "react-icons/fi";
 import Link from "next/link";
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { uploadPhotoFn } from '@/app/apis/user/actions/uploadphoto.action';
+import { toast } from 'react-toastify';
 
 
 
@@ -29,15 +31,72 @@ export default function ProfileComp() {
       icon: FiMessageCircle,
     },
   ];
+  const [photo, setPhoto] = useState(null);
+  const [preview, setPreview] = useState(null);
+    // Create image preview
+  useEffect(() => {
+    if (!photo) {
+      setPreview(null);
+      return;
+    }
 
- const {data , isLoading}= useQuery({queryKey:['userProfile'], 
+    const imageUrl = URL.createObjectURL(photo);
+    setPreview(imageUrl);
+
+    return () => URL.revokeObjectURL(imageUrl);
+  }, [photo]);
+    // Select photo
+  function handlePhotoChange(e) {
+    const file = e.target.files?.[0];
+
+    if (!file) return;
+
+    if (!file.type.startsWith("image/")) {
+      alert("Please select an image");
+      return;
+    }
+
+    setPhoto(file);
+  }
+  // api call 
+  const { mutate: uploadPhoto, isPending:imgPending, isSuccess, isError } = useMutation({
+  mutationFn: (formData) => uploadPhotoFn(formData),
+
+  onSuccess: (response) => {
+    console.log(response);
+    toast.success("Photo uploaded successfully!", {position:'top-right'});
+  },
+
+  onError: (error) => {
+    console.error(error);
+    toast.error("Failed to upload photo");
+  },
+});
+function handleUpload() {
+  if (!photo) return;
+
+  const formData = new FormData();
+  formData.append("photo", photo);
+   console.log(formData,'photo');
+   
+  uploadPhoto(formData);
+}
+
+// get profile data
+
+ const {data , isPending}= useQuery({queryKey:['userProfile'], 
  queryFn:async ()=>{
     const data = await fetch(`/api/userProfile`)
-    if(!data?.ok){
-     throw new Error ('must login first')
+    const payload = await data.json();
+
+    console.log('Status:', data.status);
+    console.log('Payload:', payload);
+
+    if (!data.ok) {
+      throw new Error(payload.message || 'Failed to fetch profile');
     }
     else {
-     return data.json()
+     return payload
  }
  }})
 
@@ -51,15 +110,46 @@ export default function ProfileComp() {
          
                {/* Avatar */}
                <div className="flex flex-col items-center">
-                 <div className="relative">
-                   <div className="flex size-40 items-center justify-center rounded-full border-[6px] border-violet-200 bg-gradient-to-br from-blue-500 to-violet-600 shadow-xl shadow-violet-200/70">
-                     <FiUser className="text-3xl text-white" />
-                   </div>
-         
-                   <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-blue-500 to-violet-600 px-3 py-1 text-sm font-semibold text-white shadow-lg">
-                     Active
-                   </span>
-                 </div>
+                <div className="relative">
+  <input
+    type="file"
+    id="uploadPhoto"
+    accept="image/*"
+    className="hidden"
+    onChange={handlePhotoChange}
+  />
+
+  <label
+    htmlFor="uploadPhoto"
+    className="relative flex size-40 cursor-pointer items-center justify-center overflow-hidden rounded-full border-[6px] border-violet-200 bg-gradient-to-br from-blue-500 to-violet-600 shadow-xl"
+  >
+    {preview ? (
+      <img
+        src={preview}
+        alt="Profile"
+        className="size-full object-cover"
+      />
+    ) : (
+      <FiUser className="text-3xl text-white" />
+    )}
+
+    <span className="absolute bottom-0 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-blue-500 to-violet-600 px-3 py-1 text-sm font-semibold text-white">
+      Active
+    </span>
+  </label>
+</div>
+
+{photo && (
+  <button
+    type="button"
+    onClick={handleUpload}
+    disabled={isPending}
+    className="rounded-2xl bg-gradient-to-r from-blue-500 to-violet-600 px-6 py-2 text-white disabled:opacity-50"
+  >
+    {isPending ? "Uploading..." : "Upload Photo"}
+  </button>
+)}
+
          
                  {/* Name */}
                  <h2 className="mt-9 text-center text-2xl font-bold text-slate-950">
