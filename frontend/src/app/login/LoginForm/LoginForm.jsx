@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { FiEye, FiLock, FiMail } from "react-icons/fi";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -20,9 +20,11 @@ export default function LoginForm() {
       password: "",
     },
   });
+  const [isLoading , setLoading] = useState(false)
   const router = useRouter();
 
   async function handleLogin(data) {
+     setLoading(true)
     const result = await signIn("credentials", {
       email: data.email,
       password: data.password,
@@ -34,10 +36,12 @@ export default function LoginForm() {
         toast.success("login successfuly", { position: "top-right" });
       }, 500);
       router.push("/dashboard");
+      setLoading(false)
     } else {
       setTimeout(() => {
         toast.error("invalid email or password", { position: "top-right" });
       }, 500);
+      setLoading(false)
     }
   }
 
@@ -147,13 +151,22 @@ export default function LoginForm() {
             Forgot Password?
           </Link>
         </div>
-
-        <button
+        {isLoading ? <>
+    <button
           type="submit"
-          className="h-14 w-full rounded-2xl bg-gradient-to-r from-blue-500 to-violet-600 text-base font-extrabold text-white shadow-lg shadow-violet-300/70 transition hover:scale-[1.01]"
+          disabled
+          className="my-5 h-14 w-full rounded-2xl bg-gradient-to-r from-blue-500 to-violet-600 text-base font-extrabold text-white shadow-lg shadow-violet-300/70 transition cursor-not-allowed opacity-50"
         >
-          Log In
-        </button>
+         Login
+        </button></> :<>
+    <button
+          type="submit"
+          className="my-5 h-14 w-full rounded-2xl bg-gradient-to-r from-blue-500 to-violet-600 text-base font-extrabold text-white shadow-lg shadow-violet-300/70 transition hover:scale-[1.01]"
+        >
+         Login
+        </button></>}
+
+      
       </form>
     </div>
   );
