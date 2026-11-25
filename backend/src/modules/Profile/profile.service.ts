@@ -27,6 +27,8 @@ export class ProfileService {
         profileImage: user.profileImage,
         experienceLevel: user.experienceLevel,
         skills: user.skills,
+        phone: user.phone,
+        location: user.location,
       },
     };
   }
