@@ -1,5 +1,5 @@
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Types } from 'mongoose';
+import { HydratedDocument, Types } from 'mongoose';
 @Schema({ _id: false })
 export class Education {
   @Prop({ required: true, trim: true })
@@ -37,6 +37,16 @@ export class Experience {
   description?: string;
 }
 export const ExperienceSchema = SchemaFactory.createForClass(Experience);
+@Schema({ _id: false })
+export class Language {
+  @Prop({ required: true, trim: true })
+  language: string;
+
+  @Prop({ required: true, trim: true })
+  proficiency: string;
+}
+
+export const LanguageSchema = SchemaFactory.createForClass(Language);
 @Schema({ timestamps: true })
 export class CV {
   @Prop({
@@ -61,7 +71,8 @@ export class CV {
     default: [],
   })
   experience: Experience[];
-
+  @Prop({ type: [LanguageSchema], default: [] })
+  languages: Language[];
   @Prop()
   pdfUrl?: string;
 
@@ -69,7 +80,7 @@ export class CV {
   pdfPublicId?: string;
 }
 export const CVSchema = SchemaFactory.createForClass(CV);
-
+export type CVDocument = HydratedDocument<CV>;
 export const CVModel = MongooseModule.forFeature([
   { name: CV.name, schema: CVSchema },
 ]);

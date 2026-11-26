@@ -1,0 +1,1904 @@
+{
+  "info": {
+    "name": "CodeBridge Gaza API",
+    "description": "Run a login request in Auth first: it saves the token into userToken / adminToken / companyToken automatically. Replace the email and password with your own test account. courseId, jobId and applicationId are collection variables: change them to ids from your database.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5000"
+    },
+    {
+      "key": "userToken",
+      "value": ""
+    },
+    {
+      "key": "adminToken",
+      "value": ""
+    },
+    {
+      "key": "companyToken",
+      "value": ""
+    },
+    {
+      "key": "courseId",
+      "value": "6b04ed1aa59f9091aa425a6b"
+    },
+    {
+      "key": "jobId",
+      "value": "6aefa590ea49a7fdb781b937"
+    },
+    {
+      "key": "applicationId",
+      "value": ""
+    }
+  ],
+  "item": [
+    {
+      "name": "Admin / Jobs",
+      "item": [
+        {
+          "name": "List Approved Jobs (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/jobs?approvalStatus=approved",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "jobs"
+              ],
+              "query": [
+                {
+                  "key": "approvalStatus",
+                  "value": "approved"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Approve Job (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/jobs/6aefa590ea49a7fdb781b937/approve",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "jobs",
+                "6aefa590ea49a7fdb781b937",
+                "approve"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Job Details (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/jobs/6aefa5a3ea49a7fdb781b939",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "jobs",
+                "6aefa5a3ea49a7fdb781b939"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Reject Job (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/jobs/6af2336c9d9d75553fa9efcc/reject",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "jobs",
+                "6af2336c9d9d75553fa9efcc",
+                "reject"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"rejectionReason\": \"Incomplete job information\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "List Pending Jobs (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/jobs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "jobs"
+              ]
+            }
+          }
+        },
+        {
+          "name": "List Rejected Jobs (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/jobs?approvalStatus=rejected",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "jobs"
+              ],
+              "query": [
+                {
+                  "key": "approvalStatus",
+                  "value": "rejected"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Jobs (User)",
+      "item": [
+        {
+          "name": "Get Job limit",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/jobs?page=1&limit=1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "jobs"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "1"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Job",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/jobs",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "jobs"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter Jobs by Type",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/jobs?employmentType=internship",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "jobs"
+              ],
+              "query": [
+                {
+                  "key": "employmentType",
+                  "value": "internship"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Job By ID",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/jobs/{{jobId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "jobs",
+                "{{jobId}}"
+              ]
+            },
+            "description": "Set the jobId variable first.\n\nRequires a USER token."
+          }
+        },
+        {
+          "name": "Search Jobs",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/jobs?search=developer&location=gaza&experienceLevel=entry",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "jobs"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "developer"
+                },
+                {
+                  "key": "location",
+                  "value": "gaza"
+                },
+                {
+                  "key": "experienceLevel",
+                  "value": "entry"
+                }
+              ]
+            },
+            "description": "experienceLevel: entry | mid | senior. employmentType: full-time | part-time | contract | internship | remote.\n\nRequires a USER token."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Profile",
+      "item": [
+        {
+          "name": "Update Profile",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/profile/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "profile",
+                "me"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Nagham Almasri\",\n  \"major\": \"Computer Systems Engineering\",\n  \"bio\": \"Backend Developer specializing in Node.js and NestJS\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get Profile",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/profile/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "profile",
+                "me"
+              ]
+            }
+          }
+        },
+        {
+          "name": "GET Profile-1",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/profile/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "profile",
+                "me"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          }
+        },
+        {
+          "name": "Upload Photo",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/profile/me/photo",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "profile",
+                "me",
+                "photo"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "photo",
+                  "type": "file",
+                  "src": [],
+                  "description": "Choose an image file"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Reset Password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/reset-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "reset-password"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"otp\": \"123456\",\n  \"newPassword\": \"your-password\",\n  \"confirmPassword\": \"your-password\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Forgot Password",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/forget-password",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "forget-password"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"your-email@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Login (User)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"password\": \"your-password\",\n  \"role\": \"USER\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.accessToken) {",
+                  "  const role = String(res.role || '').toUpperCase();",
+                  "  const name = role === 'ADMIN' ? 'adminToken' : role === 'COMPANY' ? 'companyToken' : 'userToken';",
+                  "  pm.collectionVariables.set(name, res.accessToken);",
+                  "  console.log('Saved token to ' + name);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Resend OTP",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/resend-otp",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "resend-otp"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"your-email@example.com\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Verify Email",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/verify-email",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "verify-email"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"otp\": \"123456\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "regester",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/register",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Nagham Almassri\",\n  \"email\": \"your-email@example.com\",\n  \"password\": \"your-password\",\n  \"confirmPassword\": \"your-password\",\n  \"major\": \"Software Engineering\",\n  \"experienceLevel\": \"student\",\n  \"skills\": [\n    \"JavaScript\",\n    \"Node.js\",\n    \"React.js\",\n    \"Nest.js\",\n    \"Next.js\"\n  ],\n  \"acceptTerms\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Login (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"password\": \"your-password\",\n  \"role\": \"ADMIN\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Logs in and saves the token into adminToken automatically.\n\nNo token needed."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.accessToken) {",
+                  "  const role = String(res.role || '').toUpperCase();",
+                  "  const name = role === 'ADMIN' ? 'adminToken' : role === 'COMPANY' ? 'companyToken' : 'userToken';",
+                  "  pm.collectionVariables.set(name, res.accessToken);",
+                  "  console.log('Saved token to ' + name);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login (Company)",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"password\": \"your-password\",\n  \"role\": \"COMPANY\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Logs in and saves the token into companyToken automatically.\n\nNo token needed."
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const res = pm.response.json();",
+                  "if (res.accessToken) {",
+                  "  const role = String(res.role || '').toUpperCase();",
+                  "  const name = role === 'ADMIN' ? 'adminToken' : role === 'COMPANY' ? 'companyToken' : 'userToken';",
+                  "  pm.collectionVariables.set(name, res.accessToken);",
+                  "  console.log('Saved token to ' + name);",
+                  "}"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Current Account",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "me"
+              ]
+            },
+            "description": "Returns the signed-in account.\n\nRequires a USER token."
+          }
+        },
+        {
+          "name": "Admin Test",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/admin-test",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "admin-test"
+              ]
+            },
+            "description": "Checks the admin role works.\n\nRequires a ADMIN token."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin/ Courses",
+      "item": [
+        {
+          "name": "Add course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/courses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "courses"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"HTML and CSS Essentials\",\n  \"category\": \"web development\",\n  \"level\": \"beginner\",\n  \"technology\": \"HTML and CSS\",\n  \"courseLink\": \"https://example.com/html-css\",\n  \"description\": \"Learn how to structure web pages and style responsive layouts using HTML and CSS.\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get all courses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/courses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "courses"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Edit course",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/courses/6b04e5aba59f9091aa425a68",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "courses",
+                "6b04e5aba59f9091aa425a68"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Besic React for Beginners\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Edit status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/courses/6b04e5aba59f9091aa425a68/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "courses",
+                "6b04e5aba59f9091aa425a68",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"archived\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Push image to course",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/courses/6b04e5aba59f9091aa425a68/image",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "courses",
+                "6b04e5aba59f9091aa425a68",
+                "image"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": [],
+                  "description": "Choose an image file"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Course Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/courses/{{courseId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "courses",
+                "{{courseId}}"
+              ]
+            },
+            "description": "Requires a ADMIN token."
+          }
+        },
+        {
+          "name": "Get Archived Courses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/courses?status=archived",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "courses"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "archived"
+                }
+              ]
+            },
+            "description": "Requires a ADMIN token."
+          }
+        },
+        {
+          "name": "Delete Course",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/courses/{{courseId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "courses",
+                "{{courseId}}"
+              ]
+            },
+            "description": "Fails with 400 if anyone is enrolled; archive the course instead.\n\nRequires a ADMIN token."
+          }
+        }
+      ]
+    },
+    {
+      "name": "User/ Courses",
+      "item": [
+        {
+          "name": "Get categories",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/categories",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "categories"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search course",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses?search=Python",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "Python"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get all active courses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter courses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses?level=beginner&category=programming",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses"
+              ],
+              "query": [
+                {
+                  "key": "level",
+                  "value": "beginner"
+                },
+                {
+                  "key": "category",
+                  "value": "programming"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Filter category",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses?category=programming",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses"
+              ],
+              "query": [
+                {
+                  "key": "category",
+                  "value": "programming"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Search & Filter",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses?search=Python&level=beginner",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "Python"
+                },
+                {
+                  "key": "level",
+                  "value": "beginner"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Courses - Pagination",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses?page=2&limit=2",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "2"
+                },
+                {
+                  "key": "limit",
+                  "value": "2"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Enroll in course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/6b04ed1aa59f9091aa425a6b/enroll",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "6b04ed1aa59f9091aa425a6b",
+                "enroll"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Progress (40%)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/6b04ed1aa59f9091aa425a6b/progress",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "6b04ed1aa59f9091aa425a6b",
+                "progress"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"progress\": 40\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Update Progress (Complete Course)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/6b04ed44a59f9091aa425a6e/progress",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "6b04ed44a59f9091aa425a6e",
+                "progress"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"progress\": 100\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Get My Enrollments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/me/enrollments",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "me",
+                "enrollments"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get My Completed Enrollments",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/me/enrollments?status=completed",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "me",
+                "enrollments"
+              ],
+              "query": [
+                {
+                  "key": "status",
+                  "value": "completed"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get My Enrollment for a Course",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/me/enrollments/6b04ed44a59f9091aa425a6e",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "me",
+                "enrollments",
+                "6b04ed44a59f9091aa425a6e"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Drop Course",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/6b04ed44a59f9091aa425a6e/enroll",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "6b04ed44a59f9091aa425a6e",
+                "enroll"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Progress After Drop",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/6b04ed44a59f9091aa425a6e/progress",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "6b04ed44a59f9091aa425a6e",
+                "progress"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"progress\": 50\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "Re-enroll in Course",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/6b04ed44a59f9091aa425a6e/enroll",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "6b04ed44a59f9091aa425a6e",
+                "enroll"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Recommended Courses",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/recommended?limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "recommended"
+              ],
+              "query": [
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Course Details",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/{{courseId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "{{courseId}}"
+              ]
+            },
+            "description": "Requires a USER token."
+          }
+        },
+        {
+          "name": "Enroll Again (Already Enrolled)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/{{courseId}}/enroll",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "{{courseId}}",
+                "enroll"
+              ]
+            },
+            "description": "Expected: 409 Conflict.\n\nRequires a USER token."
+          }
+        },
+        {
+          "name": "Update Progress (Invalid Value)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/{{courseId}}/progress",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "{{courseId}}",
+                "progress"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"progress\": 150\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Expected: 400 validation error.\n\nRequires a USER token."
+          }
+        },
+        {
+          "name": "Enroll - Admin Token (Forbidden)",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/{{courseId}}/enroll",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "courses",
+                "{{courseId}}",
+                "enroll"
+              ]
+            },
+            "description": "Expected: 403, only users can enroll.\n\nRequires a ADMIN token."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Application",
+      "item": [
+        {
+          "name": "Apply for Job",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/application/{{jobId}}/apply",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "application",
+                "{{jobId}}",
+                "apply"
+              ]
+            },
+            "description": "The user must have a generated CV first, and the job must be approved and active.\n\nRequires a USER token."
+          }
+        },
+        {
+          "name": "My Applications",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "USER {{userToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/application/my-applications",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "application",
+                "my-applications"
+              ]
+            },
+            "description": "Requires a USER token."
+          }
+        },
+        {
+          "name": "Update Application Status",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "COMPANY {{companyToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/application/{{applicationId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "application",
+                "{{applicationId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"accepted\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "status: pending | accepted | rejected.\n\nRequires a COMPANY token."
+          }
+        },
+        {
+          "name": "Get Job Applications (Company)",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "COMPANY {{companyToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/application/company/me/jobs/{{jobId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "application",
+                "company",
+                "me",
+                "jobs",
+                "{{jobId}}"
+              ]
+            },
+            "description": "Lists the applications for one of the company's jobs.\n\nRequires a COMPANY token."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Company",
+      "item": [
+        {
+          "name": "Add Company",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/company/add-company",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "company",
+                "add-company"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"companyName\": \"Tech Gaza\",\n  \"description\": \"Software company in Gaza\",\n  \"address\": \"Gaza City\",\n  \"email\": \"company@example.com\",\n  \"password\": \"your-password\",\n  \"confirmPassword\": \"your-password\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Creates a company account (password at least 8 characters).\n\nNo token needed."
+          }
+        },
+        {
+          "name": "Get My Company",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "COMPANY {{companyToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/company/get-company",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "company",
+                "get-company"
+              ]
+            },
+            "description": "Requires a COMPANY token."
+          }
+        },
+        {
+          "name": "Update Company",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "COMPANY {{companyToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/company/update-company",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "company",
+                "update-company"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"description\": \"Updated company description\",\n  \"address\": \"Gaza City\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Requires a COMPANY token."
+          }
+        },
+        {
+          "name": "Search Companies",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/company/search-companies?search=tech&page=1&limit=10",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "company",
+                "search-companies"
+              ],
+              "query": [
+                {
+                  "key": "search",
+                  "value": "tech"
+                },
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "limit",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "No token needed."
+          }
+        },
+        {
+          "name": "Upload Logo",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "COMPANY {{companyToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/company/upload-logo",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "company",
+                "upload-logo"
+              ]
+            },
+            "body": {
+              "mode": "formdata",
+              "formdata": [
+                {
+                  "key": "image",
+                  "type": "file",
+                  "src": [],
+                  "description": "Choose an image file"
+                }
+              ]
+            },
+            "description": "Image file, max 2 MB.\n\nRequires a COMPANY token."
+          }
+        },
+        {
+          "name": "Remove Logo",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "COMPANY {{companyToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/company/logo",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "company",
+                "logo"
+              ]
+            },
+            "description": "Requires a COMPANY token."
+          }
+        },
+        {
+          "name": "Delete Company Account",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "COMPANY {{companyToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/company/me",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "company",
+                "me"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"password\": \"your-password\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "description": "Permanently deletes the company account.\n\nRequires a COMPANY token."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -15,6 +15,7 @@ import { AddCompanyDto } from './dto/add-company.dto.js';
 import { CompanyService } from './company.service.js';
 import { UpdateCompanyDto } from './dto/update-company.dto.js';
 import { AuthGuard } from '../../common/guards/auth.guard.js';
+import { RolesGuard } from '../../common/guards/roles.guard.js';
 import { Roles } from '../../common/decorators/roles.decorator.js';
 import { AccountRole } from '../../common/enums/index.js';
 import { DeleteAccountDto } from './dto/delete-company.dto.js';
@@ -31,7 +32,7 @@ export class CompanyController {
     return this._companyService.addCompany(addCompanyDto);
   }
   @Patch('update-company')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
   @Roles(AccountRole.COMPANY)
   updateCompany(@Body() updateCompanyDto: UpdateCompanyDto, @Req() req: any) {
     const company_id = req.account._id;
@@ -48,7 +49,7 @@ export class CompanyController {
     return this._companyService.searchCompany(searchCompanyDto);
   }
   @Patch('upload-logo')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
   @Roles(AccountRole.COMPANY)
   @UseInterceptors(
     FileInterceptor('image', {
@@ -68,7 +69,7 @@ export class CompanyController {
   }
 
   @Delete('logo')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
   @Roles(AccountRole.COMPANY)
   removeLogo(@Req() req: any) {
     const companyId = req.account._id;
@@ -76,9 +77,9 @@ export class CompanyController {
   }
 
   @Delete('me')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, RolesGuard)
   @Roles(AccountRole.COMPANY)
   deleteMyAccount(@Req() req: any, @Body() dto: DeleteAccountDto) {
-    return this._companyService.deleteMyAccount(req.user._id, dto);
+    return this._companyService.deleteMyAccount(req.account._id, dto);
   }
 }
