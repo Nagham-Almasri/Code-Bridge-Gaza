@@ -1,4 +1,3 @@
-
 import { MongooseModule, Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
 import { CourseLevel, CourseStatus } from '../../common/enums/index.js';
@@ -16,8 +15,17 @@ export class Course {
   @Prop({ type: String, required: true, trim: true })
   technology: string;
 
-  @Prop({ type: String, required: true, trim: true })
-  courseLink: string;
+  @Prop({
+    type: [
+      {
+        url: { type: String, required: true, trim: true },
+      },
+    ],
+    required: true,
+  })
+  courseLinks: {
+    url: string;
+  }[];
 
   @Prop({ type: String, required: true, trim: true })
   description: string;
@@ -37,6 +45,11 @@ export class Course {
 
   @Prop({ type: String, enum: CourseLevel, required: true })
   level: CourseLevel;
+  @Prop({ type: Number, required: true, min: 0 })
+  durationHours: number;
+
+  @Prop({ type: String, required: true, trim: true })
+  provider: string;
 }
 
 export const CourseSchema = SchemaFactory.createForClass(Course);

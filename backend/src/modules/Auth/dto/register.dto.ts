@@ -41,8 +41,4 @@ export class RegisterDto {
   @IsBoolean()
   @Equals(true, { message: 'You must accept the terms and conditions' })
   acceptTerms: boolean;
-  @IsEnum(AccountRole, {
-    message: 'Invalid role. Must be either "USER" or "ADMIN","COMPANY"',
-  })
-  role: string;
 }
