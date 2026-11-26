@@ -1,57 +1,28 @@
+'use client'
+import { useQuery } from "@tanstack/react-query";
 import CourseCard from "../CourseCard/CourseCard";
+import { PulseLoader } from "react-spinners";
 
-const recommendedCourses = [
-  {
-    image: "/images/courses4.png",
-    title: "Advanced React Patterns",
-    level: "Advanced",
-    category: "Frontend Development",
-    description:
-      "Explore advanced React patterns like render props, compound components, and custom hooks.",
-  },
-  {
-    image: "/images/courses5.png",
-    title: "Node.js Backend Development",
-    level: "Intermediate",
-    category: "Backend Development",
-    description:
-      "Build robust server-side applications and RESTful APIs using Node.js and Express.",
-  },
-  {
-    image: "/images/courses6.png",
-    title: "JavaScript ES6+",
-    level: "Intermediate",
-    category: "Programming",
-    description:
-      "Deep-dive into modern JavaScript — arrow functions, destructuring, async/await, and modules.",
-  },
-  {
-    image: "/images/courses7.png",
-    title: "Python for Data Science",
-    level: "Intermediate",
-    category: "Data Science",
-    description:
-      "Use Python, Pandas, and visualization libraries to analyze and present data effectively.",
-  },
-  {
-    image: "/images/courses8.png",
-    title: "Mobile App Development",
-    level: "Intermediate",
-    category: "Mobile",
-    description:
-      "Build cross-platform mobile applications using React Native and Expo.",
-  },
-  {
-    image: "/images/courses9.png",
-    title: "UI/UX Design Principles",
-    level: "Beginner",
-    category: "UI/UX Design",
-    description:
-      "Master design systems, typography, color theory, and component design for digital products.",
-  },
-];
 
 export default function RecommendedCourses() {
+
+    const {data , isPending}=  useQuery({
+  queryKey:['recommend courses'],
+  queryFn: async () => {
+    const data = await fetch(`/api/recommendedCourses`)
+    const response =await data.json()
+     if(!data?.ok){
+     throw new Error (response.message || 'must login first')
+    }
+    else {
+      console.log(data , 'courses data');
+     return response
+ }
+  }
+})
+if(isPending){
+  return <PulseLoader color="#000" className="flex items-center justify-center" />
+}
   return (
     <section>
       {/* Header */}
