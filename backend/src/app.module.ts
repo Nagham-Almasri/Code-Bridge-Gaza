@@ -14,6 +14,7 @@ import { ProfileModule } from './modules/Profile/profile.module.js';
 import { JobsModule } from './modules/Jobs/jobs.module.js';
 import { CoursesModule } from './modules/courses/courses.module.js';
 import { CvModule } from './modules/cv/cv.module.js';
+import { DashboardModule } from './modules/dashboard/dashboard.module.js';
 export const { ObserveModule, ObserveInstrument } = createObserveModule();
 
 @Module({
@@ -42,6 +43,7 @@ export const { ObserveModule, ObserveInstrument } = createObserveModule();
     ProfileModule,
     CoursesModule,
     CvModule,
+    DashboardModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -199,6 +199,41 @@
       ]
     },
     {
+      "name": "Admin / Dashboard",
+      "item": [
+        {
+          "name": "Get Dashboard Stats",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "ADMIN {{adminToken}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/admin/dashboard?months=6",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "admin",
+                "dashboard"
+              ],
+              "query": [
+                {
+                  "key": "months",
+                  "value": "6",
+                  "description": "Months in the trends chart, 1-24 (default 6)"
+                }
+              ]
+            },
+            "description": "Counts for users, companies, jobs, applications, courses, enrollments and CVs, monthly trends, the 5 newest users and the 5 newest jobs waiting for approval.\n\nRequires an ADMIN token."
+          }
+        }
+      ]
+    },
+    {
       "name": "Jobs (User)",
       "item": [
         {
