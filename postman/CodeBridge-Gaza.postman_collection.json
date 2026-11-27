@@ -538,7 +538,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"password\": \"your-password\",\n  \"role\": \"USER\"\n}",
+              "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"password\": \"your-password\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -659,7 +659,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"password\": \"your-password\",\n  \"role\": \"ADMIN\"\n}",
+              "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"password\": \"your-password\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -703,7 +703,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"password\": \"your-password\",\n  \"role\": \"COMPANY\"\n}",
+              "raw": "{\n  \"email\": \"your-email@example.com\",\n  \"password\": \"your-password\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -803,7 +803,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"HTML and CSS Essentials\",\n  \"category\": \"web development\",\n  \"level\": \"beginner\",\n  \"technology\": \"HTML and CSS\",\n  \"courseLink\": \"https://example.com/html-css\",\n  \"description\": \"Learn how to structure web pages and style responsive layouts using HTML and CSS.\"\n}",
+              "raw": "{\n  \"title\": \"HTML and CSS Essentials\",\n  \"category\": \"web development\",\n  \"level\": \"beginner\",\n  \"technology\": \"HTML and CSS\",\n  \"courseLinks\": [\n    {\n      \"url\": \"https://example.com/html-css\"\n    }\n  ],\n  \"description\": \"Learn how to structure web pages and style responsive layouts using HTML and CSS.\",\n  \"durationHours\": 12,\n  \"provider\": \"freeCodeCamp\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
