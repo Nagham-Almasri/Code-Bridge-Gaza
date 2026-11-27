@@ -1,6 +1,22 @@
-import { Transform } from 'class-transformer';
-import { IsEnum, IsNotEmpty, IsString, IsUrl, MaxLength } from 'class-validator';
+import { Transform, Type } from 'class-transformer';
+import {
+  ArrayMinSize,
+  IsArray,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsUrl,
+  MaxLength,
+  Min,
+  ValidateNested,
+} from 'class-validator';
 import { CourseLevel } from '../../../common/enums/index.js';
+
+export class CourseLinkDto {
+  @IsUrl()
+  url: string;
+}
 
 export class CreateCourseDto {
   @IsString() @IsNotEmpty() @MaxLength(150)
@@ -16,9 +32,19 @@ export class CreateCourseDto {
   @IsString() @IsNotEmpty() @MaxLength(60)
   technology: string;
 
-  @IsUrl()
-  courseLink: string;
+  @IsArray()
+  @ArrayMinSize(1)
+  @ValidateNested({ each: true })
+  @Type(() => CourseLinkDto)
+  courseLinks: CourseLinkDto[];
 
   @IsString() @IsNotEmpty() @MaxLength(2000)
   description: string;
+
+  @IsNumber()
+  @Min(0)
+  durationHours: number;
+
+  @IsString() @IsNotEmpty() @MaxLength(100)
+  provider: string;
 }

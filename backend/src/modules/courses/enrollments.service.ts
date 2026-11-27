@@ -12,7 +12,8 @@ import { CourseStatus, EnrollmentStatus } from '../../common/enums/index.js';
 import { QueryEnrollmentsDto } from './dto/query-enrollments.dto.js';
 import { UpdateProgressDto } from './dto/update-progress.dto.js';
 
-const COURSE_FIELDS = 'title category level technology courseLink imageUrl status';
+const COURSE_FIELDS =
+  'title category level technology courseLinks durationHours provider imageUrl status';
 
 const statusForProgress = (progress: number) =>
   progress >= 100
